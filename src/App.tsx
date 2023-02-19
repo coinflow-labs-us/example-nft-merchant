@@ -5,6 +5,7 @@ import {WalletMultiButton} from '@solana/wallet-adapter-react-ui';
 import {BrowserRouter} from 'react-router-dom';
 import ShopCoinflowContextProvider from "./context/ShopCoinflowContext";
 import {CoinflowForm} from "./CoinflowForm";
+import {DirectPurchaseForm} from "./DirectPurchaseForm";
 
 function App() {
   return (
@@ -22,8 +23,8 @@ function InputPanel() {
     </div>
   <ShopCoinflowContextProvider>
     <div className={"w-full h-full flex flex-center"}>
+      <DirectPurchaseForm />
       <CoinflowForm />
-      {/*<DirectPurchaseForm />*/}
     </div>
   </ShopCoinflowContextProvider>
     </>
