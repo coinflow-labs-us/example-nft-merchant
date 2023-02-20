@@ -39,7 +39,7 @@ export function DirectPurchaseForm() {
 function Total() {
   return (
     <div className="flex-row items-baseline mb-8">
-      <span className="font-xl text-neutral-2 weight-300">Total</span>
+      <span className="font-xl text-neutral-2 weight-300">Price</span>
       <span className="flex-grow" />
       <span
         className="text-neutral-2 weight-700 flex items-center bg-base-2 rounded-4"

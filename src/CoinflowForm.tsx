@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { CoinflowPurchase } from "@coinflowlabs/react";
 import {useConnection, useWallet} from "@solana/wallet-adapter-react";
-import {ShopCoinflowContext} from "./context/ShopCoinflowContext";
+import {coinflowEnv, ShopCoinflowContext} from "./context/ShopCoinflowContext";
 
 export function CoinflowForm() {
   const wallet = useWallet();
@@ -17,12 +17,13 @@ export function CoinflowForm() {
       <CoinflowPurchase
         wallet={wallet}
         merchantId={"nft-example"}
-        env={'sandbox'}
+        env={coinflowEnv}
         connection={connection}
         onSuccess={() => {console.log('SUCCESS')}}
         transaction={transaction}
         amount={amount}
         blockchain={'solana'}
+        debugTx={true}
       />
     </div>
   );
