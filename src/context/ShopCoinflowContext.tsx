@@ -16,7 +16,7 @@ export const ShopCoinflowContext = React.createContext<ShopContextProps>({
   amount: 0,
 });
 
-const nftMint = new PublicKey('CGgncguPSzgx5nPd5M5YCsCcLagDmwfSZWtuWrfqP5vT').toString(); // TODO
+const nftMint = new PublicKey('CGcdDT1GCJkndyX8twPp3Jo9rg5xw3a8RNsKpQVGQWYQ').toString(); // TODO
 
 export default function ShopCoinflowContextProvider({
   children,
