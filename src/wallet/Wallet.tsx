@@ -52,29 +52,38 @@ export function WalletContextProvider({children}: {children: ReactNode}) {
     return new Connection(rpcUrl, 'confirmed');
   }, [web3auth?.options.chainConfig.rpcTarget]);
 
-  const sendTransaction = useCallback(async (transaction: Transaction) => {
-    if (!provider) {
-      throw new Error('provider not initialized yet');
-    }
-    const rpc = new RPC(provider);
-    return await rpc.sendTransaction(transaction);
-  }, []);
+  const sendTransaction = useCallback(
+    async (transaction: Transaction) => {
+      if (!provider) {
+        throw new Error('provider not initialized yet');
+      }
+      const rpc = new RPC(provider);
+      return await rpc.sendTransaction(transaction);
+    },
+    [provider]
+  );
 
-  const signTransaction = useCallback(async (transaction: Transaction) => {
-    if (!provider) {
-      throw new Error('provider not initialized yet');
-    }
-    const rpc = new RPC(provider);
-    return await rpc.signTransaction(transaction);
-  }, []);
+  const signTransaction = useCallback(
+    async (transaction: Transaction) => {
+      if (!provider) {
+        throw new Error('provider not initialized yet');
+      }
+      const rpc = new RPC(provider);
+      return await rpc.signTransaction(transaction);
+    },
+    [provider]
+  );
 
-  const signMessage = useCallback(async (message: string) => {
-    if (!provider) {
-      throw new Error('provider not initialized yet');
-    }
-    const rpc = new RPC(provider);
-    return await rpc.signMessage(message);
-  }, []);
+  const signMessage = useCallback(
+    async (message: string) => {
+      if (!provider) {
+        throw new Error('provider not initialized yet');
+      }
+      const rpc = new RPC(provider);
+      return await rpc.signMessage(message);
+    },
+    [provider]
+  );
 
   useEffect(() => {
     const init = async () => {
