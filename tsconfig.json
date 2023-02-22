@@ -22,8 +22,5 @@
   },
   "include": [
     "src"
-  ],
-  "references": [
-    { "path": "../../../packages/react" },
-  ],
+  ]
 }
