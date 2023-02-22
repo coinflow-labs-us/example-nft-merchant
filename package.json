@@ -19,7 +19,7 @@
     "react-router-dom": "^6.8.1"
   },
   "scripts": {
-    "build": "GENERATE_SOURCEMAP=false react-app-rewired build",
+    "build": "react-app-rewired build",
     "start": "PORT=3004 react-app-rewired start",
     "dev": "npm run start"
   },
