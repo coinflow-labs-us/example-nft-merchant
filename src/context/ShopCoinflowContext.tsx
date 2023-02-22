@@ -1,8 +1,8 @@
-import React, { ReactNode, useCallback, useEffect, useState } from "react";
-import {ComputeBudgetProgram, PublicKey, Transaction} from "@solana/web3.js";
-import {buyEditionTx} from "@phantasia/nft-store-interface";
-import {useWallet} from "@solana/wallet-adapter-react";
-import {CoinflowEnvs, CoinflowUtils} from "@coinflowlabs/react";
+import React, {ReactNode, useCallback, useEffect, useState} from 'react';
+import {ComputeBudgetProgram, PublicKey, Transaction} from '@solana/web3.js';
+import {buyEditionTx} from '@phantasia/nft-store-interface';
+import {CoinflowEnvs, CoinflowUtils} from '@coinflowlabs/react';
+import {useWallet} from '../wallet/Wallet';
 
 export const coinflowEnv: CoinflowEnvs = 'staging';
 
@@ -16,7 +16,9 @@ export const ShopCoinflowContext = React.createContext<ShopContextProps>({
   amount: 0,
 });
 
-const nftMint = new PublicKey('CGcdDT1GCJkndyX8twPp3Jo9rg5xw3a8RNsKpQVGQWYQ').toString(); // TODO
+const nftMint = new PublicKey(
+  'CGcdDT1GCJkndyX8twPp3Jo9rg5xw3a8RNsKpQVGQWYQ'
+).toString();
 
 export default function ShopCoinflowContextProvider({
   children,
@@ -28,9 +30,7 @@ export default function ShopCoinflowContextProvider({
   const [transaction, setTransaction] = useState<Transaction | null>(null);
 
   const getFeePayer = useCallback(() => {
-    return new CoinflowUtils(coinflowEnv).getFeePayer(
-      "nft-example"
-    )
+    return new CoinflowUtils(coinflowEnv).getFeePayer('nft-example');
   }, []);
 
   const setPurchaseEditionTx = useCallback(async () => {
@@ -60,7 +60,7 @@ export default function ShopCoinflowContextProvider({
     <ShopCoinflowContext.Provider
       value={{
         transaction,
-        amount
+        amount,
       }}
     >
       {children}

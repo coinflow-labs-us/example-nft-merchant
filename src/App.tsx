@@ -1,11 +1,10 @@
 import React, {ReactNode} from 'react';
 import './App.css';
-import {Wallet} from './wallet/Wallet';
-import {WalletMultiButton} from '@solana/wallet-adapter-react-ui';
+import {useWallet, WalletContextProvider} from './wallet/Wallet';
 import {BrowserRouter} from 'react-router-dom';
-import ShopCoinflowContextProvider from "./context/ShopCoinflowContext";
-import {CoinflowForm} from "./CoinflowForm";
-import {DirectPurchaseForm} from "./DirectPurchaseForm";
+import ShopCoinflowContextProvider from './context/ShopCoinflowContext';
+import {CoinflowForm} from './CoinflowForm';
+import {DirectPurchaseForm} from './DirectPurchaseForm';
 
 function App() {
   return (
@@ -16,17 +15,22 @@ function App() {
 }
 
 function InputPanel() {
+  const {connect, publicKey} = useWallet();
+
   return (
     <>
-    <div className={'flex flex-row space-x-1'}>
-      <WalletMultiButton />
-    </div>
-  <ShopCoinflowContextProvider>
-    <div className={"w-full h-full flex flex-center"}>
-      <DirectPurchaseForm />
-      <CoinflowForm />
-    </div>
-  </ShopCoinflowContextProvider>
+      <div className={'flex flex-row space-x-1'}>
+        <button onClick={connect} className="card">
+          Login
+        </button>
+        <span>{publicKey?.toString()}</span>
+      </div>
+      <ShopCoinflowContextProvider>
+        <div className={'w-full h-full flex flex-center'}>
+          <DirectPurchaseForm />
+          <CoinflowForm />
+        </div>
+      </ShopCoinflowContextProvider>
     </>
   );
 }
@@ -36,9 +40,9 @@ function ContextWrapper({children}: {children: ReactNode}) {
     <div
       className={'flex flex-col items-center justify-center h-screen w-screen'}
     >
-      <Wallet>
-          <BrowserRouter>{children}</BrowserRouter>
-      </Wallet>
+      <WalletContextProvider>
+        <BrowserRouter>{children}</BrowserRouter>
+      </WalletContextProvider>
     </div>
   );
 }

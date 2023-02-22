@@ -1,25 +1,26 @@
-import React, { useContext } from "react";
-import { CoinflowPurchase } from "@coinflowlabs/react";
-import {useConnection, useWallet} from "@solana/wallet-adapter-react";
-import {coinflowEnv, ShopCoinflowContext} from "./context/ShopCoinflowContext";
+import React, {useContext} from 'react';
+import {CoinflowPurchase} from '@coinflowlabs/react';
+import {coinflowEnv, ShopCoinflowContext} from './context/ShopCoinflowContext';
+import {useWallet} from './wallet/Wallet';
 
 export function CoinflowForm() {
   const wallet = useWallet();
-  const {connection} = useConnection();
 
-  const { transaction, amount } =
-    useContext(ShopCoinflowContext);
+  const {transaction, amount} = useContext(ShopCoinflowContext);
 
   if (!transaction) return null;
+  if (!wallet.connection) return null;
 
   return (
-    <div className={`w-4/5 mx-auto px-8 flex-col h-full`}>
+    <div className={'w-4/5 mx-auto px-8 flex-col h-full'}>
       <CoinflowPurchase
         wallet={wallet}
-        merchantId={"nft-example"}
+        merchantId={'nft-example'}
         env={coinflowEnv}
-        connection={connection}
-        onSuccess={() => {console.log('SUCCESS')}}
+        connection={wallet.connection}
+        onSuccess={() => {
+          console.log('SUCCESS');
+        }}
         transaction={transaction}
         amount={amount}
         blockchain={'solana'}
