@@ -132,7 +132,10 @@ export function WalletContextProvider({children}: {children: ReactNode}) {
   };
 
   useEffect(() => {
-    if (!provider) return;
+    if (!provider) {
+      setPublicKey(null);
+      return;
+    }
 
     getAccounts().then(([account]) => {
       setPublicKey(new PublicKey(account));

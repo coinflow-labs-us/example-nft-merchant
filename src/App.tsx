@@ -15,14 +15,20 @@ function App() {
 }
 
 function InputPanel() {
-  const {connect, publicKey} = useWallet();
+  const {connect, publicKey, disconnect} = useWallet();
 
   return (
     <>
       <div className={'flex flex-row space-x-1'}>
-        <button onClick={connect} className="card">
-          Login
-        </button>
+        {publicKey ? (
+          <button onClick={disconnect} className="card">
+            Logout
+          </button>
+        ) : (
+          <button onClick={connect} className="card">
+            Login
+          </button>
+        )}
         <span>{publicKey?.toString()}</span>
       </div>
       <ShopCoinflowContextProvider>
