@@ -5,6 +5,7 @@ import {BrowserRouter} from 'react-router-dom';
 import ShopCoinflowContextProvider from './context/ShopCoinflowContext';
 import {CoinflowForm} from './CoinflowForm';
 import {DirectPurchaseForm} from './DirectPurchaseForm';
+import {Button} from 'antd';
 
 function App() {
   return (
@@ -15,29 +16,31 @@ function App() {
 }
 
 function InputPanel() {
-  const {connect, publicKey, disconnect} = useWallet();
+  const {publicKey} = useWallet();
 
   return (
-    <>
-      <div className={'flex flex-row space-x-1'}>
-        {publicKey ? (
-          <button onClick={disconnect} className="card">
-            Logout
-          </button>
-        ) : (
-          <button onClick={connect} className="card">
-            Login
-          </button>
-        )}
-        <span>{publicKey?.toString()}</span>
+    <ShopCoinflowContextProvider>
+      <div className={'w-full h-full flex flex-center'}>
+        <DirectPurchaseForm />
+        {!publicKey ? <LoginForm /> : <CoinflowForm />}
       </div>
-      <ShopCoinflowContextProvider>
-        <div className={'w-full h-full flex flex-center'}>
-          <DirectPurchaseForm />
-          <CoinflowForm />
-        </div>
-      </ShopCoinflowContextProvider>
-    </>
+    </ShopCoinflowContextProvider>
+  );
+}
+
+function LoginForm() {
+  const {connect} = useWallet();
+  return (
+    <div className={'flex flex-col items-center justify-center w-4/5'}>
+      <Button
+        type="primary"
+        onClick={connect}
+        size={'large'}
+        style={{background: '#73c2fb'}}
+      >
+        Login to Purchase
+      </Button>
+    </div>
   );
 }
 
