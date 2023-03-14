@@ -24,7 +24,6 @@ export function CoinflowForm() {
         transaction={transaction}
         amount={amount}
         blockchain={'solana'}
-        debugTx={true}
       />
     </div>
   );
