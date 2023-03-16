@@ -58,7 +58,10 @@ export function WalletContextProvider({children}: {children: ReactNode}) {
         throw new Error('provider not initialized yet');
       }
       const rpc = new RPC(provider);
-      return await rpc.sendTransaction(transaction);
+      const signedTx = await rpc.signTransaction(transaction);
+      if (!connection) throw new Error('error');
+      return await connection.sendRawTransaction(signedTx.serialize());
+      // TODO set this back to sendTransaction return await rpc.sendTransaction(transaction);
     },
     [provider]
   );
