@@ -4,7 +4,7 @@ import {buyEditionTx} from '@phantasia/nft-store-interface';
 import {CoinflowEnvs, CoinflowUtils} from '@coinflowlabs/react';
 import {useWallet} from '../wallet/Wallet';
 
-export const coinflowEnv: CoinflowEnvs = 'staging';
+export const coinflowEnv: CoinflowEnvs = 'sandbox';
 
 interface ShopContextProps {
   transaction: Transaction | null;
