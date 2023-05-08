@@ -61,7 +61,6 @@ export function WalletContextProvider({children}: {children: ReactNode}) {
       const signedTx = await rpc.signTransaction(transaction);
       if (!connection) throw new Error('error');
       return await connection.sendRawTransaction(signedTx.serialize());
-      // TODO set this back to sendTransaction return await rpc.sendTransaction(transaction);
     },
     [provider]
   );

@@ -73,7 +73,7 @@ function Total() {
         }}
       >
         <i className={'text-neutral-2 bx bx-dollar'} />
-        {' 1.00'}
+        {' 20.00'}
       </span>
     </div>
   );

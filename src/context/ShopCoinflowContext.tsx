@@ -54,7 +54,7 @@ export default function ShopCoinflowContextProvider({
     setPurchaseEditionTx();
   }, [setPurchaseEditionTx]);
 
-  const amount = 1;
+  const amount = 20;
 
   return (
     <ShopCoinflowContext.Provider
