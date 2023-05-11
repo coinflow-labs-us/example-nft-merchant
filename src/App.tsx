@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react';
+import React, {ReactNode, useState} from 'react';
 import './App.css';
 import {useWallet, WalletContextProvider} from './wallet/Wallet';
 import {BrowserRouter} from 'react-router-dom';
@@ -16,16 +16,27 @@ function App() {
 }
 
 function InputPanel() {
-  const {publicKey} = useWallet();
+  const [buyCredits, setBuyCredits] = useState(false);
 
   return (
     <ShopCoinflowContextProvider>
       <div className={'w-full h-full flex flex-center'}>
-        <DirectPurchaseForm />
-        {!publicKey ? <LoginForm /> : <CoinflowForm />}
+        <DirectPurchaseForm
+          buyCredits={buyCredits}
+          setBuyCredits={setBuyCredits}
+        />
+        <Content buyCredits={buyCredits} />
       </div>
     </ShopCoinflowContextProvider>
   );
+}
+
+function Content({buyCredits}: {buyCredits: boolean}) {
+  const {publicKey} = useWallet();
+
+  if (!publicKey) return <LoginForm />;
+
+  return <CoinflowForm buyCredits={buyCredits} />;
 }
 
 function LoginForm() {

@@ -11,7 +11,13 @@ export function HorizontalDivider({className}: {className: string}) {
   );
 }
 
-export function DirectPurchaseForm() {
+export function DirectPurchaseForm({
+  buyCredits,
+  setBuyCredits,
+}: {
+  buyCredits: boolean;
+  setBuyCredits: (buyCredits: boolean) => void;
+}) {
   const {publicKey, disconnect} = useWallet();
 
   const focusedNft = {
@@ -44,7 +50,19 @@ export function DirectPurchaseForm() {
         <HorizontalDivider className={'my-8'} />
         <Total />
       </div>
-      <div className={'flex flex-col items-center justify-center self-end'}>
+      <div
+        className={
+          'flex flex-col items-center justify-center self-end space-y-4'
+        }
+      >
+        <Button
+          type="primary"
+          onClick={() => setBuyCredits(!buyCredits)}
+          size={'large'}
+          style={{background: '#73c2fb'}}
+        >
+          {buyCredits ? 'Buy NFT' : 'Buy Credits'}
+        </Button>
         {publicKey && (
           <Button
             type="primary"
