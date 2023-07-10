@@ -1,7 +1,7 @@
 import React, {ReactNode, useCallback, useEffect, useState} from 'react';
 import {ComputeBudgetProgram, PublicKey, Transaction} from '@solana/web3.js';
 import {buyEditionTx} from '@phantasia/nft-store-interface';
-import {CoinflowEnvs, CoinflowUtils} from '@coinflowlabs/react';
+import {CoinflowEnvs} from '@coinflowlabs/react';
 import {useWallet} from '../wallet/Wallet';
 
 export const coinflowEnv: CoinflowEnvs = 'sandbox';
@@ -29,13 +29,12 @@ export default function ShopCoinflowContextProvider({
 
   const [transaction, setTransaction] = useState<Transaction | null>(null);
 
-  const getFeePayer = useCallback(() => {
-    return new CoinflowUtils(coinflowEnv).getFeePayer('nft-example');
-  }, []);
-
   const setPurchaseEditionTx = useCallback(async () => {
     if (!wallet.publicKey) return;
-    const feePayer = await getFeePayer();
+    const feePayer = new PublicKey(
+      '49pgJ4d5QzPj65qdXfC6CUiyo2CadQabZbTf1z1Mvx2z'
+    );
+    console.log({feePayer: feePayer.toString()});
 
     const transaction = await buyEditionTx(
       feePayer,
@@ -48,7 +47,7 @@ export default function ShopCoinflowContextProvider({
     transaction.instructions.unshift(computeBudgetIx);
 
     setTransaction(transaction);
-  }, [getFeePayer, wallet.publicKey]);
+  }, [wallet.publicKey]);
 
   useEffect(() => {
     setPurchaseEditionTx();
