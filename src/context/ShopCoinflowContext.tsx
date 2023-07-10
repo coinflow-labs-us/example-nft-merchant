@@ -34,7 +34,6 @@ export default function ShopCoinflowContextProvider({
     const feePayer = new PublicKey(
       '49pgJ4d5QzPj65qdXfC6CUiyo2CadQabZbTf1z1Mvx2z'
     );
-    console.log({feePayer: feePayer.toString()});
 
     const transaction = await buyEditionTx(
       feePayer,

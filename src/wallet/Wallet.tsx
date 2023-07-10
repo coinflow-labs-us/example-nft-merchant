@@ -139,10 +139,13 @@ export function WalletContextProvider({children}: {children: ReactNode}) {
       return;
     }
 
-    getAccounts().then(([account]) => {
-      setPublicKey(new PublicKey(account));
+    if (publicKey) return;
+
+    getAccounts().then(accounts => {
+      if (!Array.isArray(accounts)) return;
+      setPublicKey(new PublicKey(accounts[0]));
     });
-  }, [provider]);
+  });
 
   const disconnect = async () => {
     if (!web3auth) {
