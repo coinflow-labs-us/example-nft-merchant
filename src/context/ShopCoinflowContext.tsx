@@ -1,4 +1,10 @@
-import React, {ReactNode, useCallback, useEffect, useState} from 'react';
+import React, {
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import {ComputeBudgetProgram, PublicKey, Transaction} from '@solana/web3.js';
 import {buyEditionTx} from '@phantasia/nft-store-interface';
 import {CoinflowEnvs} from '@coinflowlabs/react';
@@ -9,9 +15,13 @@ export const coinflowEnv: CoinflowEnvs = 'sandbox';
 interface ShopContextProps {
   transaction: Transaction | null;
   amount: number;
+  buyCredits: boolean;
+  setBuyCredits: (b: boolean) => void;
 }
 
 export const ShopCoinflowContext = React.createContext<ShopContextProps>({
+  buyCredits: false,
+  setBuyCredits(b: boolean): void {},
   transaction: null,
   amount: 0,
 });
@@ -28,6 +38,7 @@ export default function ShopCoinflowContextProvider({
   const wallet = useWallet();
 
   const [transaction, setTransaction] = useState<Transaction | null>(null);
+  const [buyCredits, setBuyCredits] = useState<boolean>(false);
 
   const setPurchaseEditionTx = useCallback(async () => {
     if (!wallet.publicKey) return;
@@ -40,17 +51,18 @@ export default function ShopCoinflowContextProvider({
       wallet.publicKey,
       new PublicKey(nftMint)
     );
+
     const computeBudgetIx = ComputeBudgetProgram.setComputeUnitLimit({
       units: 400_000,
     });
     transaction.instructions.unshift(computeBudgetIx);
 
     setTransaction(transaction);
-  }, [wallet.publicKey]);
+  }, [wallet.publicKey, buyCredits]);
 
   useEffect(() => {
-    setPurchaseEditionTx();
-  }, [setPurchaseEditionTx]);
+    setPurchaseEditionTx().catch(console.error);
+  }, [wallet, buyCredits]);
 
   const amount = 20;
 
@@ -59,9 +71,13 @@ export default function ShopCoinflowContextProvider({
       value={{
         transaction,
         amount,
+        buyCredits,
+        setBuyCredits,
       }}
     >
       {children}
     </ShopCoinflowContext.Provider>
   );
 }
+
+export const useShop = () => useContext(ShopCoinflowContext);

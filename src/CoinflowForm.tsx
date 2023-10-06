@@ -1,10 +1,15 @@
 import React, {useContext} from 'react';
 import {CoinflowPurchase} from '@coinflowlabs/react';
-import {coinflowEnv, ShopCoinflowContext} from './context/ShopCoinflowContext';
+import {
+  coinflowEnv,
+  ShopCoinflowContext,
+  useShop,
+} from './context/ShopCoinflowContext';
 import {useWallet} from './wallet/Wallet';
 
-export function CoinflowForm({buyCredits}: {buyCredits: boolean}) {
+export function CoinflowForm() {
   const wallet = useWallet();
+  const {buyCredits} = useShop();
 
   const {transaction, amount} = useContext(ShopCoinflowContext);
 
@@ -13,7 +18,7 @@ export function CoinflowForm({buyCredits}: {buyCredits: boolean}) {
 
   if (buyCredits) {
     return (
-      <div className={'w-4/5 mx-auto px-8 flex-col h-full'}>
+      <div className={'flex-1 mx-auto px-16 flex-col h-full flex -mt-14'}>
         <CoinflowPurchase
           wallet={wallet}
           merchantId={'nft-example'}
@@ -29,7 +34,7 @@ export function CoinflowForm({buyCredits}: {buyCredits: boolean}) {
   }
 
   return (
-    <div className={'w-4/5 mx-auto px-8 flex-col h-full'}>
+    <div className={'flex-1 mx-auto px-16 flex-col h-full flex -mt-14'}>
       <CoinflowPurchase
         wallet={wallet}
         merchantId={'nft-example'}
