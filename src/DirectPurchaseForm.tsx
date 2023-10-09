@@ -93,6 +93,7 @@ function SupplyIndicator() {
       <span className="font-extrabold text-xl text-slate-900 mt-8">
         Basic Sword
       </span>
+
       <div className={'flex space-x-5 items-center -ml-3 mt-3'}>
         <div
           className={'flex space-x-2 items-center rounded-full p-3 bg-zinc-100'}

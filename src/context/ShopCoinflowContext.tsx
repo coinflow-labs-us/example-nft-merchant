@@ -5,10 +5,11 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import {ComputeBudgetProgram, PublicKey, Transaction} from '@solana/web3.js';
-import {buyEditionTx} from '@phantasia/nft-store-interface';
+import {Transaction} from '@solana/web3.js';
 import {CoinflowEnvs} from '@coinflowlabs/react';
 import {useWallet} from '../wallet/Wallet';
+import {ADMIN_WALLET, SOLANA_CONNECTION} from '../index';
+import {sendUsdc} from '../SendUsdc';
 
 export const coinflowEnv: CoinflowEnvs = 'sandbox';
 
@@ -26,10 +27,6 @@ export const ShopCoinflowContext = React.createContext<ShopContextProps>({
   amount: 0,
 });
 
-const nftMint = new PublicKey(
-  'CGcdDT1GCJkndyX8twPp3Jo9rg5xw3a8RNsKpQVGQWYQ'
-).toString();
-
 export default function ShopCoinflowContextProvider({
   children,
 }: {
@@ -40,31 +37,25 @@ export default function ShopCoinflowContextProvider({
   const [transaction, setTransaction] = useState<Transaction | null>(null);
   const [buyCredits, setBuyCredits] = useState<boolean>(false);
 
-  const setPurchaseEditionTx = useCallback(async () => {
-    if (!wallet.publicKey) return;
-    const feePayer = new PublicKey(
-      '49pgJ4d5QzPj65qdXfC6CUiyo2CadQabZbTf1z1Mvx2z'
+  const amount = 20;
+
+  const createNewMint = useCallback(async () => {
+    if (!wallet || !wallet.publicKey) return;
+
+    const tx = await sendUsdc(wallet.publicKey, ADMIN_WALLET.publicKey, amount);
+
+    const latestBlockHash = await SOLANA_CONNECTION.getLatestBlockhash(
+      'confirmed'
     );
 
-    const transaction = await buyEditionTx(
-      feePayer,
-      wallet.publicKey,
-      new PublicKey(nftMint)
-    );
+    tx.recentBlockhash = await latestBlockHash.blockhash;
 
-    const computeBudgetIx = ComputeBudgetProgram.setComputeUnitLimit({
-      units: 400_000,
-    });
-    transaction.instructions.unshift(computeBudgetIx);
-
-    setTransaction(transaction);
-  }, [wallet.publicKey, buyCredits]);
+    setTransaction(tx);
+  }, [wallet, amount]);
 
   useEffect(() => {
-    setPurchaseEditionTx().catch(console.error);
+    createNewMint().catch();
   }, [wallet, buyCredits]);
-
-  const amount = 20;
 
   return (
     <ShopCoinflowContext.Provider
