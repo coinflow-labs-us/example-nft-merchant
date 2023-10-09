@@ -1,24 +1,31 @@
-import React, {ReactNode, useCallback, useEffect, useState} from 'react';
-import {ComputeBudgetProgram, PublicKey, Transaction} from '@solana/web3.js';
-import {buyEditionTx} from '@phantasia/nft-store-interface';
+import React, {
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+import {Transaction} from '@solana/web3.js';
 import {CoinflowEnvs} from '@coinflowlabs/react';
 import {useWallet} from '../wallet/Wallet';
+import {ADMIN_WALLET, SOLANA_CONNECTION} from '../index';
+import {sendUsdc} from '../SendUsdc';
 
 export const coinflowEnv: CoinflowEnvs = 'sandbox';
 
 interface ShopContextProps {
   transaction: Transaction | null;
   amount: number;
+  buyCredits: boolean;
+  setBuyCredits: (b: boolean) => void;
 }
 
 export const ShopCoinflowContext = React.createContext<ShopContextProps>({
+  buyCredits: false,
+  setBuyCredits(b: boolean): void {},
   transaction: null,
   amount: 0,
 });
-
-const nftMint = new PublicKey(
-  'CGcdDT1GCJkndyX8twPp3Jo9rg5xw3a8RNsKpQVGQWYQ'
-).toString();
 
 export default function ShopCoinflowContextProvider({
   children,
@@ -28,40 +35,40 @@ export default function ShopCoinflowContextProvider({
   const wallet = useWallet();
 
   const [transaction, setTransaction] = useState<Transaction | null>(null);
-
-  const setPurchaseEditionTx = useCallback(async () => {
-    if (!wallet.publicKey) return;
-    const feePayer = new PublicKey(
-      '49pgJ4d5QzPj65qdXfC6CUiyo2CadQabZbTf1z1Mvx2z'
-    );
-
-    const transaction = await buyEditionTx(
-      feePayer,
-      wallet.publicKey,
-      new PublicKey(nftMint)
-    );
-    const computeBudgetIx = ComputeBudgetProgram.setComputeUnitLimit({
-      units: 400_000,
-    });
-    transaction.instructions.unshift(computeBudgetIx);
-
-    setTransaction(transaction);
-  }, [wallet.publicKey]);
-
-  useEffect(() => {
-    setPurchaseEditionTx();
-  }, [setPurchaseEditionTx]);
+  const [buyCredits, setBuyCredits] = useState<boolean>(false);
 
   const amount = 20;
+
+  const createNewMint = useCallback(async () => {
+    if (!wallet || !wallet.publicKey) return;
+
+    const tx = await sendUsdc(wallet.publicKey, ADMIN_WALLET.publicKey, amount);
+
+    const latestBlockHash = await SOLANA_CONNECTION.getLatestBlockhash(
+      'confirmed'
+    );
+
+    tx.recentBlockhash = await latestBlockHash.blockhash;
+
+    setTransaction(tx);
+  }, [wallet, amount]);
+
+  useEffect(() => {
+    createNewMint().catch();
+  }, [wallet, buyCredits]);
 
   return (
     <ShopCoinflowContext.Provider
       value={{
         transaction,
         amount,
+        buyCredits,
+        setBuyCredits,
       }}
     >
       {children}
     </ShopCoinflowContext.Provider>
   );
 }
+
+export const useShop = () => useContext(ShopCoinflowContext);
