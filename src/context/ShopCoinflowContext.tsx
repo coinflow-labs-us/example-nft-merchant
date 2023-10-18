@@ -37,7 +37,7 @@ export default function ShopCoinflowContextProvider({
   const [transaction, setTransaction] = useState<Transaction | null>(null);
   const [buyCredits, setBuyCredits] = useState<boolean>(false);
 
-  const amount = 20;
+  const amount = 2;
 
   const createNewMint = useCallback(async () => {
     if (!wallet || !wallet.publicKey) return;

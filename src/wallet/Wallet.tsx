@@ -122,7 +122,12 @@ export function WalletContextProvider({children}: {children: ReactNode}) {
       throw new Error('web3auth not initialized yet');
     }
     const web3authProvider = await web3auth.connect();
+
     setProvider(web3authProvider);
+    getAccounts().then(accounts => {
+      if (!Array.isArray(accounts)) return;
+      setPublicKey(new PublicKey(accounts[0]));
+    });
   };
 
   const getAccounts = async () => {
@@ -145,7 +150,7 @@ export function WalletContextProvider({children}: {children: ReactNode}) {
       if (!Array.isArray(accounts)) return;
       setPublicKey(new PublicKey(accounts[0]));
     });
-  });
+  }, [provider]);
 
   const disconnect = async () => {
     if (!web3auth) {
