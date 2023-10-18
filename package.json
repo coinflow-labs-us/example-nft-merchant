@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@coinflowlabs/react": "2.3.1",
+    "@coinflowlabs/react": "2.6.0",
     "@metaplex-foundation/js": "^0.19.5",
     "@phantasia/nft-store-interface": "2.0.8",
     "@solana/spl-token": "0.3.8",
