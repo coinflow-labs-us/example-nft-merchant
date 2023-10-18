@@ -92,7 +92,7 @@ export function WalletContextProvider({children}: {children: ReactNode}) {
       try {
         const web3auth = new Web3Auth({
           clientId:
-            'BKPNPUxXPoDfsjTw6AF1dfMJdyzYeXMskYWmObAcicEdSYS91NVb_cMeIVZIi_M55jF-i3wiNRaVblr5347Clss',
+            'BPiYjwnlxjhSB4i0HzhjW3pKGp9trJvK1AaBXmoDNTXFUT8fjMVIe5zk9KN6kNqs6v2KyKY2JF0TEtaxxSPwu1s',
           web3AuthNetwork: 'testnet', // mainnet, aqua, celeste, cyan or testnet
           chainConfig: {
             chainNamespace: CHAIN_NAMESPACES.SOLANA,
