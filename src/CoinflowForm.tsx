@@ -51,10 +51,6 @@ export function CoinflowForm() {
       isMutable: false,
     });
 
-    console.log({res});
-
-    console.log('Public key', wallet.publicKey?.toString());
-
     if (wallet.publicKey) {
       const {response} = await METAPLEX.nfts().transfer({
         nftOrSft: res.nft,
@@ -98,17 +94,15 @@ export function CoinflowForm() {
   }
 
   return (
-    <div className={'bg-zinc-200 lg:bg-white w-full flex-1'}>
+    <div className={'bg-gray-800 lg:bg-gray-950 w-full flex-1'}>
       <div
         className={
-          'overflow-auto h-auto lg:h-screen  px-0 lg:px-16 flex-1 w-full py-10 rounded-t-[30px] bg-white'
+          'overflow-auto h-auto px-0 lg:px-8 lg:pb-6 flex-1 w-full rounded-t-[30px] bg-gray-950'
         }
       >
         <div
           style={{height: `${height}px`}}
-          className={
-            'flex-col h-full flex -mt-24 lg:mt-0 max-w-[700px] mx-auto'
-          }
+          className={'flex-col h-full flex lg:-mt-12 -mt-12 mx-auto'}
         >
           <CoinflowPurchase
             handleHeightChange={handleHeightChange}

@@ -26,15 +26,15 @@ export function Header() {
   return (
     <div
       className={
-        'flex-col flex space-y-2 fixed z-50 top-0 right-0 left-0 items-center'
+        'flex-col flex space-y-2 fixed lg:sticky z-50 top-0 right-0 left-0 items-center'
       }
     >
       <div
         className={`${
           !showHeader
             ? 'bg-transparent backdrop-blur-none'
-            : 'bg-white/80 ring-[0.5px] backdrop-blur-2xl'
-        } lg:backdrop-blur-2xl transition-all duration-500 lg:bg-white/80 p-5 flex w-full items-center space-x-4 px-5 lg:px-16 lg:ring-[0.5px] ring-black/10`}
+            : 'bg-gray-950/80 backdrop-blur-2xl'
+        } lg:backdrop-blur-2xl transition-all duration-500 lg:bg-gray-950/50 p-5 flex w-full items-center space-x-4 px-5 lg:px-16`}
       >
         <img
           src={
@@ -44,7 +44,7 @@ export function Header() {
           className={'w-6 object-contain'}
         />
         <span
-          className={'font-extrabold text-slate-900 text-sm lg:text-lg flex-1'}
+          className={'font-extrabold text-gray-50 text-sm lg:text-lg flex-1'}
         >
           Battle Brawlers
         </span>
@@ -60,14 +60,14 @@ export function Header() {
       <div
         className={`${
           showHeader ? 'opacity-100' : 'opacity-0'
-        } lg:opacity-0 bg-white/90 fade-in backdrop-blur-2xl flex items-center space-x-2 p-2 rounded-full`}
+        } lg:opacity-0 bg-gray-950/90 fade-in backdrop-blur-2xl flex lg:hidden items-center space-x-2 p-2 rounded-full`}
       >
         <img
           src={focusedNft.image}
           alt={'nft'}
           className={'w-7 h-7 rounded-full'}
         />
-        <span className={'text-sm font-bold text-slate-900'}>$20.00</span>
+        <span className={'text-sm font-bold text-gray-50'}>$20.00</span>
       </div>
     </div>
   );
@@ -84,7 +84,7 @@ function OutlineButton({
     <div
       onClick={onClick}
       className={
-        'backdrop-blur-2xl cursor-pointer ring-black/10 ring-[0.5px] font-semibold text-slate-900 text-xs bg-white/20 hover:bg-white/100 transition rounded-full p-3 px-4'
+        'backdrop-blur-2xl cursor-pointer ring-white/10 ring-[0.5px] font-semibold text-gray-50 text-xs bg-gray-900/40 hover:bg-gray-900/100 transition rounded-full p-3 px-4'
       }
     >
       {children}
