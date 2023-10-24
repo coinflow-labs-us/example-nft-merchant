@@ -66,7 +66,7 @@ function Content() {
 function LoginForm() {
   const {connect} = useWallet();
   return (
-    <div className={'bg-zinc-200 lg:bg-gray-950 flex flex-1'}>
+    <div className={'bg-gray-800 lg:bg-gray-950 flex flex-1'}>
       <div
         className={
           'flex flex-col items-center justify-center flex-1 rounded-t-3xl bg-gray-950 w-full h-full shadow-2xl lg:shadow-none'

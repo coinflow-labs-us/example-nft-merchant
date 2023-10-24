@@ -2,12 +2,14 @@ import React, {ReactNode, useEffect, useState} from 'react';
 import {useWallet} from './wallet/Wallet';
 import {useShop} from './context/ShopCoinflowContext';
 import {focusedNft} from './App';
+import {TestCardsModal} from './modals/TestCardsModal';
 
 export function Header() {
   const {publicKey, disconnect} = useWallet();
   const {buyCredits, setBuyCredits} = useShop();
 
   const [showHeader, setShowHeader] = useState<boolean>(false);
+  const [testCardsOpen, setTestCardsOpen] = useState<boolean>(false);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -44,11 +46,20 @@ export function Header() {
           className={'w-6 object-contain'}
         />
         <span
-          className={'font-extrabold text-gray-50 text-sm lg:text-lg flex-1'}
+          className={
+            'hidden lg:flex font-extrabold text-gray-50 text-sm lg:text-lg'
+          }
         >
           Battle Brawlers
         </span>
+        <div className={'flex-1'} />
 
+        <div className={'joyride-step-5'}>
+          <OutlineButton onClick={() => setTestCardsOpen(true)}>
+            <span>Test Cards</span>
+            <i className={'bx bx-chevron-down ml-1'} />
+          </OutlineButton>
+        </div>
         <div className={'joyride-step-4'}>
           <OutlineButton onClick={() => setBuyCredits(!buyCredits)}>
             {buyCredits ? 'Buy NFT' : 'Buy Credits'}
@@ -62,7 +73,7 @@ export function Header() {
       <div
         className={`${
           showHeader ? 'opacity-100' : 'opacity-0'
-        } lg:opacity-0 bg-gray-950/90 fade-in backdrop-blur-2xl flex lg:hidden items-center space-x-2 p-2 rounded-full`}
+        } lg:opacity-0 bg-gray-900/90 shadow-xl fade-in backdrop-blur-2xl flex lg:hidden items-center space-x-2 p-2 rounded-full`}
       >
         <img
           src={focusedNft.image}
@@ -71,6 +82,7 @@ export function Header() {
         />
         <span className={'text-sm font-bold text-gray-50'}>$20.00</span>
       </div>
+      <TestCardsModal isOpen={testCardsOpen} setIsOpen={setTestCardsOpen} />
     </div>
   );
 }
@@ -86,7 +98,7 @@ function OutlineButton({
     <div
       onClick={onClick}
       className={
-        'backdrop-blur-2xl cursor-pointer ring-white/10 ring-[0.5px] font-semibold text-gray-50 text-xs bg-gray-900/40 hover:bg-gray-900/100 transition rounded-full p-3 px-4'
+        'cursor-pointer flex items-center font-semibold text-gray-100 text-xs hover:text-white transition py-3'
       }
     >
       {children}

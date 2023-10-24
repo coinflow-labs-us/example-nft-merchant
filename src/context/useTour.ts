@@ -32,6 +32,13 @@ export function useTour() {
         disableBeacon: true,
       },
       {
+        target: '.joyride-step-5',
+        title: 'Test cards 💳',
+        content:
+          'Find test cards here to quickly make purchases with different cards. ',
+        disableBeacon: true,
+      },
+      {
         target: '.joyride-step-3',
         title: "You're ready 👍",
         content: 'Sign in to get started',
