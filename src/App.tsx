@@ -74,7 +74,7 @@ function LoginForm() {
       >
         <div
           className={
-            'joyride-step-3 bg-blue-600 rounded-2xl p-5 px-7 hover:bg-blue-500 transition cursor-pointer'
+            'joyride-step-3 bg-blue-400 rounded-2xl p-5 px-7 hover:bg-blue-500 transition cursor-pointer'
           }
           onClick={connect}
         >

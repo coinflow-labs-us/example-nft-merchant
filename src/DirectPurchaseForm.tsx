@@ -10,7 +10,7 @@ export function DirectPurchaseForm() {
     >
       <div
         className={
-          'lg:bg-gray-900 flex rounded-r-3xl flex-col z-50 p-9 lg:p-16 flex-1 h-full pt-20 lg:pt-12'
+          'lg:bg-gray-900 flex flex-col z-30 p-9 lg:p-16 flex-1 h-full pt-20 lg:pt-12'
         }
       >
         <div className={'flex-col space-y-5 justify-center align-center'}>

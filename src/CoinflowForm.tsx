@@ -9,10 +9,15 @@ import {useWallet} from './wallet/Wallet';
 import {ADMIN_WALLET, METAPLEX} from './index';
 import {token} from '@metaplex-foundation/js';
 import {PublicKey} from '@solana/web3.js';
+import {NftSuccessModal} from './modals/NftSuccessModal';
+import {CreditsSuccessModal} from './modals/CreditsSuccessModal';
 
 export function CoinflowForm() {
   const wallet = useWallet();
   const {buyCredits} = useShop();
+
+  const [creditSuccessOpen, setCreditSuccessOpen] = useState<boolean>(false);
+  const [nftSuccessOpen, setNftSuccessOpen] = useState<boolean>(false);
 
   const [height, setHeight] = useState<number>(0);
   const [handleHeightChange, setHandleHeightChange] = useState<
@@ -31,7 +36,11 @@ export function CoinflowForm() {
 
   const {transaction, amount} = useContext(ShopCoinflowContext);
 
-  const onSuccess = useCallback(async () => {
+  const onNftSuccess = useCallback(async () => {
+    setTimeout(() => {
+      setNftSuccessOpen(true);
+    }, 1200);
+
     const res = await METAPLEX.nfts().create({
       uri: 'https://shdw-drive.genesysgo.net/Fwa7houxcUtTKGf1egRUVowgax5zzNLFYkPvggLYexeo/metadata.json',
       name: 'Sword',
@@ -65,13 +74,15 @@ export function CoinflowForm() {
 
   if (buyCredits) {
     return (
-      <div className={'bg-zinc-200 w-full'}>
+      <div className={'bg-gray-800 lg:bg-gray-950 w-full flex-1'}>
         <div
-          className={'overflow-auto flex-1 mx-auto px-16 py-10 rounded-t-4xl'}
+          className={
+            'overflow-auto h-auto px-0 lg:px-8 lg:pb-6 flex-1 w-full rounded-t-[30px] bg-gray-950'
+          }
         >
           <div
             style={{height: `${height}px`}}
-            className={'flex-col h-full flex'}
+            className={'flex-col h-full flex lg:-mt-12 -mt-12 mx-auto'}
           >
             <CoinflowPurchase
               wallet={wallet}
@@ -79,13 +90,19 @@ export function CoinflowForm() {
               env={coinflowEnv}
               connection={wallet.connection}
               onSuccess={() => {
-                console.log('SUCCESS');
+                setTimeout(() => {
+                  setCreditSuccessOpen(true);
+                }, 1200);
               }}
               blockchain={'solana'}
               handleHeightChange={handleHeightChange}
             />
           </div>
         </div>
+        <CreditsSuccessModal
+          isOpen={creditSuccessOpen}
+          setIsOpen={setCreditSuccessOpen}
+        />
       </div>
     );
   }
@@ -107,13 +124,14 @@ export function CoinflowForm() {
             merchantId={'nft-example'}
             env={coinflowEnv}
             connection={wallet.connection}
-            onSuccess={onSuccess}
+            onSuccess={onNftSuccess}
             transaction={transaction}
             amount={amount}
             blockchain={'solana'}
           />
         </div>
       </div>
+      <NftSuccessModal isOpen={nftSuccessOpen} setIsOpen={setNftSuccessOpen} />
     </div>
   );
 }

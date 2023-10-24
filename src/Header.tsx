@@ -26,15 +26,15 @@ export function Header() {
   return (
     <div
       className={
-        'flex-col flex space-y-2 fixed lg:sticky z-50 top-0 right-0 left-0 items-center'
+        'flex-col flex space-y-2 fixed lg:sticky z-40 top-0 right-0 left-0 items-center'
       }
     >
       <div
         className={`${
           !showHeader
-            ? 'bg-transparent backdrop-blur-none'
-            : 'bg-gray-950/50 backdrop-blur-2xl backdrop-filter'
-        } lg:backdrop-blur-2xl transition-all backdrop-filter-none lg:backdrop-filter duration-500 lg:bg-gray-950/50 p-5 flex w-full items-center space-x-4 px-5 lg:px-16`}
+            ? 'bg-transparent backdrop-blur-none backdrop-filter-none'
+            : 'bg-gray-950/60 backdrop-blur-xl backdrop-filter'
+        } lg:backdrop-blur-2xl transition-all lg:backdrop-filter duration-500 lg:bg-gray-950/50 p-5 flex w-full items-center space-x-4 px-5 lg:px-16`}
       >
         <img
           src={
