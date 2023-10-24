@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react';
+import React, {ReactNode, useEffect} from 'react';
 import './App.css';
 import {useWallet, WalletContextProvider} from './wallet/Wallet';
 import {BrowserRouter} from 'react-router-dom';
@@ -6,6 +6,9 @@ import ShopCoinflowContextProvider from './context/ShopCoinflowContext';
 import {CoinflowForm} from './CoinflowForm';
 import {DirectPurchaseForm} from './DirectPurchaseForm';
 import {Header} from './Header';
+import Joyride from 'react-joyride';
+import {TourTooltip} from './TourTooltip';
+import {useTour} from './context/useTour';
 
 export const focusedNft = {
   image:
@@ -16,6 +19,7 @@ export const focusedNft = {
 function App() {
   return (
     <ContextWrapper>
+      <TourComponent />
       <ShopCoinflowContextProvider>
         <div className={'w-full flex flex-col h-screen relative bg-gray-950'}>
           <div className={'flex flex-col lg:flex-row w-full flex-1'}>
@@ -32,6 +36,22 @@ function App() {
         </div>
       </ShopCoinflowContextProvider>
     </ContextWrapper>
+  );
+}
+
+function TourComponent() {
+  const {skipTour, steps} = useTour();
+
+  return (
+    <Joyride
+      run={!skipTour}
+      tooltipComponent={TourTooltip}
+      steps={steps}
+      showSkipButton
+      showProgress
+      scrollToFirstStep
+      continuous
+    />
   );
 }
 
@@ -54,7 +74,7 @@ function LoginForm() {
       >
         <div
           className={
-            'bg-blue-600 rounded-2xl p-5 px-7 hover:bg-blue-500 transition cursor-pointer'
+            'joyride-step-3 bg-blue-600 rounded-2xl p-5 px-7 hover:bg-blue-500 transition cursor-pointer'
           }
           onClick={connect}
         >

@@ -32,9 +32,6 @@ export function CoinflowForm() {
   const {transaction, amount} = useContext(ShopCoinflowContext);
 
   const onSuccess = useCallback(async () => {
-    console.log('Public key', wallet.publicKey?.toString());
-    console.log('ADMIN', ADMIN_WALLET.publicKey.toString());
-
     const res = await METAPLEX.nfts().create({
       uri: 'https://shdw-drive.genesysgo.net/Fwa7houxcUtTKGf1egRUVowgax5zzNLFYkPvggLYexeo/metadata.json',
       name: 'Sword',

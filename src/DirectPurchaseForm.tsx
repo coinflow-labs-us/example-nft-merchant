@@ -5,20 +5,18 @@ export function DirectPurchaseForm() {
   return (
     <div
       className={
-        'bg-gray-800 lg:bg-gray-950 flex flex-col h-auto lg:h-screen p-3 max-w-full w-full lg:w-2/5 lg:max-w-[550px] bg-base-1 overflow-hidden relative'
+        'bg-gray-800 lg:bg-gray-950 flex flex-col h-auto lg:h-screen max-w-full w-full lg:w-2/5 lg:max-w-[550px] bg-base-1 overflow-hidden relative'
       }
     >
       <div
         className={
-          'lg:bg-gray-900 flex rounded-3xl flex-col z-50 p-9 lg:p-16 flex-1 h-full pt-20 lg:pt-12'
+          'lg:bg-gray-900 flex rounded-r-3xl flex-col z-50 p-9 lg:p-16 flex-1 h-full pt-20 lg:pt-12'
         }
       >
         <div className={'flex-col space-y-5 justify-center align-center'}>
-          <div className={'flex flex-row items-center space-x-2'}></div>
-
           <div
             className={
-              'p-2 rounded-2xl shadow-2xl bg-gray-700 backdrop-blur-2xl'
+              'p-2 rounded-2xl shadow-2xl bg-gray-700 backdrop-blur-2xl joyride-step-1'
             }
           >
             <img
@@ -30,7 +28,6 @@ export function DirectPurchaseForm() {
         </div>
 
         <SupplyIndicator />
-
         <Total />
       </div>
     </div>
@@ -39,9 +36,9 @@ export function DirectPurchaseForm() {
 
 function Total() {
   return (
-    <div className="flex flex-col mt-6 items-end flex-1 justify-end">
+    <div className="flex flex-col mt-6 items-end flex-1 justify-end ">
       <span className="text-xs text-zinc-500">Price</span>
-      <span className="text-gray-50 font-extrabold text-2xl lg:text-4xl">
+      <span className="text-gray-50 font-extrabold text-2xl lg:text-4xl joyride-step-2">
         $20.00
       </span>
     </div>

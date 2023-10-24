@@ -33,8 +33,8 @@ export function Header() {
         className={`${
           !showHeader
             ? 'bg-transparent backdrop-blur-none'
-            : 'bg-gray-950/80 backdrop-blur-2xl'
-        } lg:backdrop-blur-2xl transition-all duration-500 lg:bg-gray-950/50 p-5 flex w-full items-center space-x-4 px-5 lg:px-16`}
+            : 'bg-gray-950/50 backdrop-blur-2xl backdrop-filter'
+        } lg:backdrop-blur-2xl transition-all backdrop-filter-none lg:backdrop-filter duration-500 lg:bg-gray-950/50 p-5 flex w-full items-center space-x-4 px-5 lg:px-16`}
       >
         <img
           src={
@@ -49,9 +49,11 @@ export function Header() {
           Battle Brawlers
         </span>
 
-        <OutlineButton onClick={() => setBuyCredits(!buyCredits)}>
-          {buyCredits ? 'Buy NFT' : 'Buy Credits'}
-        </OutlineButton>
+        <div className={'joyride-step-4'}>
+          <OutlineButton onClick={() => setBuyCredits(!buyCredits)}>
+            {buyCredits ? 'Buy NFT' : 'Buy Credits'}
+          </OutlineButton>
+        </div>
         {publicKey && (
           <OutlineButton onClick={disconnect}>Logout</OutlineButton>
         )}
