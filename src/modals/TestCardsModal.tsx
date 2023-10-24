@@ -50,6 +50,12 @@ export function TestCardsModal({
                   >
                     Test credit cards
                   </Dialog.Title>
+                  <div className="mt-1">
+                    <p className="text-sm text-gray-300 text-center">
+                      Any future expiration date and CVV number will work for
+                      testing
+                    </p>
+                  </div>
                   <div className="mt-2 mb-6 w-full">
                     <TestCardPanel close={() => setIsOpen(false)} />
                   </div>
