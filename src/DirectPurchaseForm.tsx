@@ -10,25 +10,31 @@ export function DirectPurchaseForm() {
     >
       <div
         className={
-          ' bg-transparent lg:bg-zinc-100 flex flex-col z-30 p-9 lg:p-16 flex-1 h-full pt-20 lg:pt-12'
+          ' bg-transparent lg:bg-zinc-100 flex flex-col items-center z-30 p-9 lg:p-16 flex-1 h-full pt-20 lg:pt-12'
         }
       >
-        <div className={'flex-col space-y-5 justify-center align-center'}>
+        <div className={'flex flex-col max-h-[600px] h-400px lg:h-[600px]'}>
           <div
             className={
-              'p-2 rounded-2xl shadow-2xl bg-zinc-50 backdrop-blur-2xl joyride-step-1'
+              'flex-col space-y-5 justify-center align-center max-w-[350px]'
             }
           >
-            <img
-              src={focusedNft.image}
-              alt={'nft'}
-              className={'w-full rounded-lg'}
-            />
+            <div
+              className={
+                'p-2 rounded-2xl shadow-2xl bg-zinc-50 backdrop-blur-2xl joyride-step-1'
+              }
+            >
+              <img
+                src={focusedNft.image}
+                alt={'nft'}
+                className={'w-full rounded-lg'}
+              />
+            </div>
           </div>
-        </div>
 
-        <SupplyIndicator />
-        <Total />
+          <SupplyIndicator />
+          <Total />
+        </div>
       </div>
     </div>
   );

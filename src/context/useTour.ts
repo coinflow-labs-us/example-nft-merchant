@@ -21,14 +21,14 @@ export function useTour() {
         target: '.joyride-step-2',
         title: "Let's buy 💸",
         content:
-          "The price is 20 fake internet dollars. With Coinflow, let's purchase this using a credit card, ACH transfer, or crypto.",
+          "The price is $20. With Coinflow, let's purchase this using a credit card, ACH transfer, or crypto. (You won't be charged, since this is a test environment.)",
         disableBeacon: true,
       },
       {
         target: '.joyride-step-4',
         title: 'Coinflow credits 🪙',
         content:
-          'Coinflow allows end-users to optionally purchase credits to "top up" their account balance for future purchases. Think of this like a gift card or in-app Venmo balance.',
+          'Coinflow allows end-users to optionally purchase credits to "top up" their account balance for future purchases. Think of this like a closed-loop gift card or in-app balance.',
         disableBeacon: true,
       },
       {

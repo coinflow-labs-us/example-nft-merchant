@@ -1,4 +1,4 @@
-import React, {ReactNode, useEffect} from 'react';
+import React, {ReactNode} from 'react';
 import './App.css';
 import {useWallet, WalletContextProvider} from './wallet/Wallet';
 import {BrowserRouter} from 'react-router-dom';
