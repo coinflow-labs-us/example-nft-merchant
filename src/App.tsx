@@ -21,12 +21,16 @@ function App() {
     <ContextWrapper>
       <TourComponent />
       <ShopCoinflowContextProvider>
-        <div className={'w-full flex flex-col h-screen relative bg-gray-950'}>
-          <div className={'flex flex-col lg:flex-row w-full flex-1'}>
+        <div className={'w-full flex flex-col h-screen relative bg-white'}>
+          <div
+            className={
+              'flex flex-col lg:flex-row max-h-none h-auto lg:max-h-screen lg:h-screen w-full flex-1'
+            }
+          >
             <DirectPurchaseForm />
             <div
               className={
-                'flex flex-col flex-1 bg-gray-950 overflow-auto h-screen static lg:relative'
+                'flex flex-col flex-1 bg-white overflow-auto h-screen static lg:relative'
               }
             >
               <Header />
@@ -66,10 +70,10 @@ function Content() {
 function LoginForm() {
   const {connect} = useWallet();
   return (
-    <div className={'bg-gray-800 lg:bg-gray-950 flex flex-1'}>
+    <div className={'bg-zinc-200 lg:bg-white flex flex-1'}>
       <div
         className={
-          'flex flex-col items-center justify-center flex-1 rounded-t-3xl bg-gray-950 w-full h-full shadow-2xl lg:shadow-none'
+          'flex flex-col items-center justify-center flex-1 rounded-t-3xl bg-white w-full h-full shadow-2xl lg:shadow-none'
         }
       >
         <div
@@ -78,7 +82,7 @@ function LoginForm() {
           }
           onClick={connect}
         >
-          <span className={'text-sm font-semibold text-white'}>
+          <span className={'text-sm font-semibold text-slate-900'}>
             Login to Purchase
           </span>
         </div>

@@ -21,7 +21,7 @@ export function useTour() {
         target: '.joyride-step-2',
         title: "Let's buy 💸",
         content:
-          'The price is 20 fake internet dollars. With Coinflow, lets purchase this using credit card, ACH transfers, or crypto.',
+          "The price is 20 fake internet dollars. With Coinflow, let's purchase this using a credit card, ACH transfer, or crypto.",
         disableBeacon: true,
       },
       {

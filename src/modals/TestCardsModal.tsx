@@ -43,15 +43,15 @@ export function TestCardsModal({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="backdrop-blur-xl flex flex-col items-start backdrop-filter w-full max-w-md transform overflow-hidden rounded-2xl bg-gray-800/80 p-6 text-left shadow-xl transition-all">
+                <Dialog.Panel className="mx-auto backdrop-blur-xl flex flex-col items-start backdrop-filter w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
-                    className="text-lg leading-6 text-white font-semibold"
+                    className="text-lg leading-6 text-slate-900 font-semibold"
                   >
                     Test credit cards
                   </Dialog.Title>
                   <div className="mt-1">
-                    <p className="text-sm text-gray-300 text-center">
+                    <p className="text-sm text-zinc-600">
                       Any future expiration date and CVV number will work for
                       testing
                     </p>
@@ -61,12 +61,12 @@ export function TestCardsModal({
                   </div>
                   <Dialog.Title
                     as="h3"
-                    className="text-lg leading-6 text-white font-semibold"
+                    className="text-lg leading-6 text-slate-900 font-semibold"
                   >
-                    Simulate <span className={'text-red-400'}>failure</span>
+                    Simulate <span className={'text-red-600'}>failure</span>
                   </Dialog.Title>
                   <div className="mt-2">
-                    <p className="text-sm text-gray-300 text-center">
+                    <p className="text-sm text-zinc-600 text-center">
                       Use '99999' as your zip code on checkout
                     </p>
                   </div>
@@ -74,7 +74,7 @@ export function TestCardsModal({
                   <div className="mt-6 flex justify-end w-full">
                     <button
                       type="button"
-                      className="transition rounded-2xl border border-transparent bg-gray-700 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-500 focus:outline-none"
+                      className="transition rounded-2xl border border-transparent bg-zinc-100 px-4 py-3 text-sm font-semibold text-slate-900 hover:bg-blue-500 focus:outline-none"
                       onClick={() => {
                         closeModal();
                       }}
@@ -155,14 +155,14 @@ function TestCardItem({
       <img src={img} alt={'card'} className={'w-5 object-contain'} />
       <span
         className={
-          'text-slate-100 font-semibold text-sm group-hover:text-white transition flex-1'
+          'text-zinc-600 font-semibold text-sm group-hover:text-slate-900 transition flex-1'
         }
       >
         {copied ? 'Copied!' : display}
       </span>
       <i
         className={
-          'bx bx-copy-alt text-sm text-slate-100 group-hover:text-white transition'
+          'bx bx-copy-alt text-sm text-zinc-500 group-hover:text-slate-900 transition'
         }
       />
     </div>

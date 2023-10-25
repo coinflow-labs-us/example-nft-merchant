@@ -35,8 +35,8 @@ export function Header() {
         className={`${
           !showHeader
             ? 'bg-transparent backdrop-blur-none backdrop-filter-none'
-            : 'bg-gray-950/60 backdrop-blur-xl backdrop-filter'
-        } lg:backdrop-blur-2xl transition-all lg:backdrop-filter duration-500 lg:bg-gray-950/50 p-5 flex w-full items-center space-x-4 px-5 lg:px-16`}
+            : 'bg-white/60 backdrop-blur-xl backdrop-filter'
+        } lg:backdrop-blur-2xl transition-all lg:backdrop-filter duration-500 lg:bg-white/50 p-5 flex w-full items-center space-x-4 px-5 lg:px-16`}
       >
         <img
           src={
@@ -47,7 +47,7 @@ export function Header() {
         />
         <span
           className={
-            'hidden lg:flex font-extrabold text-gray-50 text-sm lg:text-lg'
+            'hidden lg:flex font-extrabold text-slate-900 text-sm lg:text-lg'
           }
         >
           Battle Brawlers
@@ -73,14 +73,14 @@ export function Header() {
       <div
         className={`${
           showHeader ? 'opacity-100' : 'opacity-0'
-        } lg:opacity-0 bg-gray-900/90 shadow-xl fade-in backdrop-blur-2xl flex lg:hidden items-center space-x-2 p-2 rounded-full`}
+        } lg:opacity-0 bg-zinc-100/90 shadow-xl fade-in backdrop-blur-2xl flex lg:hidden items-center space-x-2 p-2 rounded-full`}
       >
         <img
           src={focusedNft.image}
           alt={'nft'}
           className={'w-7 h-7 rounded-full'}
         />
-        <span className={'text-sm font-bold text-gray-50'}>$20.00</span>
+        <span className={'text-sm font-bold text-slate-900'}>$20.00</span>
       </div>
       <TestCardsModal isOpen={testCardsOpen} setIsOpen={setTestCardsOpen} />
     </div>
@@ -98,7 +98,7 @@ function OutlineButton({
     <div
       onClick={onClick}
       className={
-        'cursor-pointer flex items-center font-semibold text-gray-100 text-xs hover:text-white transition py-3'
+        'cursor-pointer flex items-center font-semibold text-gray-700 text-xs hover:text-slate-900 transition py-3'
       }
     >
       {children}

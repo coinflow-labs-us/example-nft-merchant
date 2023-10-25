@@ -36,48 +36,61 @@ export function CoinflowForm() {
 
   const {transaction, amount} = useContext(ShopCoinflowContext);
 
+  const mintAndSendNft = useCallback(
+    async (retry: number) => {
+      try {
+        const res = await METAPLEX.nfts().create({
+          uri: 'https://shdw-drive.genesysgo.net/Fwa7houxcUtTKGf1egRUVowgax5zzNLFYkPvggLYexeo/metadata.json',
+          name: 'Sword',
+          sellerFeeBasisPoints: 0,
+          symbol: 'SWRD',
+          creators: [
+            {
+              address: new PublicKey(
+                '63zH5fKvSubyforhkAJEWwaeEUoLe8R864bETRLMrX1t'
+              ),
+              share: 100,
+            },
+          ],
+          isMutable: false,
+        });
+        console.log('Mint complete', res);
+
+        if (wallet.publicKey) {
+          const {response} = await METAPLEX.nfts().transfer({
+            nftOrSft: res.nft,
+            authority: ADMIN_WALLET,
+            fromOwner: ADMIN_WALLET.publicKey,
+            toOwner: wallet.publicKey,
+            amount: token(1),
+          });
+          console.log('Success! Signature: ', response.signature);
+        }
+      } catch (e) {
+        console.error(e);
+        if (retry <= 2) await mintAndSendNft(retry + 1);
+      }
+    },
+    [ADMIN_WALLET, METAPLEX]
+  );
+
   const onNftSuccess = useCallback(async () => {
     setTimeout(() => {
       setNftSuccessOpen(true);
     }, 1200);
 
-    const res = await METAPLEX.nfts().create({
-      uri: 'https://shdw-drive.genesysgo.net/Fwa7houxcUtTKGf1egRUVowgax5zzNLFYkPvggLYexeo/metadata.json',
-      name: 'Sword',
-      sellerFeeBasisPoints: 0,
-      symbol: 'SWRD',
-      creators: [
-        {
-          address: new PublicKey(
-            '63zH5fKvSubyforhkAJEWwaeEUoLe8R864bETRLMrX1t'
-          ),
-          share: 100,
-        },
-      ],
-      isMutable: false,
-    });
-
-    if (wallet.publicKey) {
-      const {response} = await METAPLEX.nfts().transfer({
-        nftOrSft: res.nft,
-        authority: ADMIN_WALLET,
-        fromOwner: ADMIN_WALLET.publicKey,
-        toOwner: wallet.publicKey,
-        amount: token(1),
-      });
-      console.log('Success! Signature: ', response.signature);
-    }
-  }, [wallet, ADMIN_WALLET]);
+    await mintAndSendNft(0);
+  }, [wallet, ADMIN_WALLET, METAPLEX]);
 
   if (!transaction) return null;
   if (!wallet.connection) return null;
 
   if (buyCredits) {
     return (
-      <div className={'bg-gray-800 lg:bg-gray-950 w-full flex-1'}>
+      <div className={'bg-zinc-200 lg:bg-white w-full flex-1'}>
         <div
           className={
-            'overflow-auto h-auto px-0 lg:px-8 lg:pb-6 flex-1 w-full rounded-t-[30px] bg-gray-950'
+            'overflow-auto h-auto px-0 lg:px-8 lg:pb-6 flex-1 w-full rounded-t-[30px] bg-white'
           }
         >
           <div
@@ -108,15 +121,15 @@ export function CoinflowForm() {
   }
 
   return (
-    <div className={'bg-gray-800 lg:bg-gray-950 w-full flex-1'}>
+    <div className={'bg-zinc-200 lg:bg-white w-full flex-1'}>
       <div
         className={
-          'overflow-auto h-auto px-0 lg:px-8 lg:pb-6 flex-1 w-full rounded-t-[30px] bg-gray-950'
+          'overflow-auto h-auto px-0 lg:px-8 lg:pb-6 flex-1 w-full rounded-t-[30px] bg-white'
         }
       >
         <div
           style={{height: `${height}px`}}
-          className={'flex-col h-full flex lg:-mt-12 -mt-12 mx-auto'}
+          className={'flex-col h-full flex lg:-mt-12 -mt-10 mx-auto'}
         >
           <CoinflowPurchase
             handleHeightChange={handleHeightChange}

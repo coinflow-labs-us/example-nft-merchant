@@ -40,10 +40,10 @@ export function NftSuccessModal({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="backdrop-blur-xl items-center flex flex-col backdrop-filter w-full max-w-md transform overflow-hidden rounded-2xl bg-gray-800/80 p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="backdrop-blur-xl items-center flex flex-col backdrop-filter w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <div
                     className={
-                      'p-1 rounded-2xl shadow-2xl bg-gray-700 backdrop-blur-2xl w-32 mb-3'
+                      'p-1 rounded-2xl shadow-2xl bg-zinc-300 backdrop-blur-2xl w-32 mb-3'
                     }
                   >
                     <img
@@ -54,12 +54,12 @@ export function NftSuccessModal({
                   </div>
                   <Dialog.Title
                     as="h3"
-                    className="text-lg font-medium leading-6 text-white font-semibold"
+                    className="text-lg leading-6 text-slate-900 font-semibold"
                   >
                     Purchase successful
                   </Dialog.Title>
                   <div className="mt-2">
-                    <p className="text-sm text-gray-400 text-center">
+                    <p className="text-sm text-zinc-600 text-center">
                       Your payment has been successfully submitted & you've
                       received your item!
                     </p>
@@ -68,7 +68,7 @@ export function NftSuccessModal({
                   <div className="mt-5">
                     <button
                       type="button"
-                      className="transition rounded-2xl border border-transparent bg-blue-400 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-500 focus:outline-none"
+                      className="transition rounded-2xl border border-transparent bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-500 focus:outline-none"
                       onClick={() => {
                         closeModal();
                         window.location.reload();
