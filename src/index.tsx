@@ -31,8 +31,6 @@ export const METAPLEX = Metaplex.make(SOLANA_CONNECTION).use(
   keypairIdentity(ADMIN_WALLET)
 );
 
-console.log(ADMIN_WALLET.publicKey.toString());
-
 root.render(
   <React.StrictMode>
     <App />
