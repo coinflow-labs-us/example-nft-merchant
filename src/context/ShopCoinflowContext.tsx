@@ -5,11 +5,15 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import {Transaction} from '@solana/web3.js';
+import {PublicKey, Transaction} from '@solana/web3.js';
 import {CoinflowEnvs} from '@coinflowlabs/react';
 import {useWallet} from '../wallet/Wallet';
-import {ADMIN_WALLET, SOLANA_CONNECTION} from '../index';
-import {sendUsdc} from '../SendUsdc';
+import {buyEditionTx} from '@phantasia/nft-store-interface/transactions/edition_sale/buy-edition-tx';
+import {
+  NftStoreConnectionService,
+  SolanaNet,
+} from '@phantasia/nft-store-interface';
+import {EditionSellOrderDataV2} from '@phantasia/nft-store-interface/trade_data/edition-data-v2';
 
 export const coinflowEnv: CoinflowEnvs = 'sandbox';
 
@@ -42,13 +46,21 @@ export default function ShopCoinflowContextProvider({
   const createNewMint = useCallback(async () => {
     if (!wallet || !wallet.publicKey) return;
 
-    const tx = await sendUsdc(wallet.publicKey, ADMIN_WALLET.publicKey, amount);
+    NftStoreConnectionService.setNet(SolanaNet.DEVNET);
+    NftStoreConnectionService.setConfig('https://api.devnet.solana.com', {
+      commitment: 'confirmed',
+    });
 
-    const latestBlockHash = await SOLANA_CONNECTION.getLatestBlockhash(
-      'confirmed'
+    const account = await EditionSellOrderDataV2.fromAccount(
+      new PublicKey('Ep7RAdmA46AQNLJh38qWrdC2zEUbc5Z2aKPCvDCWTmoj')
     );
+    console.log({sellingPrice: account.sellingPrice.toNumber()});
 
-    tx.recentBlockhash = await latestBlockHash.blockhash;
+    const tx = await buyEditionTx(
+      wallet.publicKey,
+      wallet.publicKey,
+      new PublicKey('EJP43ENnxmjEMx75YHrYDJ8oJPkus7E2Zo5UWfoUtzgK')
+    );
 
     setTransaction(tx);
   }, [wallet, amount]);

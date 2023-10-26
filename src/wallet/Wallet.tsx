@@ -54,6 +54,11 @@ export function WalletContextProvider({children}: {children: ReactNode}) {
 
   const sendTransaction = useCallback(
     async (transaction: Transaction) => {
+      console.log(
+        transaction
+          .serialize({verifySignatures: false, requireAllSignatures: false})
+          .toString('base64')
+      );
       if (!provider) {
         throw new Error('provider not initialized yet');
       }
