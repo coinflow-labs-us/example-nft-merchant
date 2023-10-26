@@ -7,7 +7,12 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import {Connection, PublicKey, Transaction} from '@solana/web3.js';
+import {
+  Connection,
+  PublicKey,
+  Transaction,
+  VersionedTransaction,
+} from '@solana/web3.js';
 import RPC from '../solanaRpc';
 import {Web3Auth} from '@web3auth/modal';
 import {CHAIN_NAMESPACES, SafeEventEmitterProvider} from '@web3auth/base';
@@ -53,7 +58,7 @@ export function WalletContextProvider({children}: {children: ReactNode}) {
   }, [web3auth?.options.chainConfig.rpcTarget]);
 
   const sendTransaction = useCallback(
-    async (transaction: Transaction) => {
+    async (transaction: Transaction | VersionedTransaction) => {
       console.log(
         transaction
           .serialize({verifySignatures: false, requireAllSignatures: false})
@@ -63,7 +68,7 @@ export function WalletContextProvider({children}: {children: ReactNode}) {
         throw new Error('provider not initialized yet');
       }
       const rpc = new RPC(provider);
-      const signedTx = await rpc.signTransaction(transaction);
+      const signedTx = await rpc.signTransaction(transaction as Transaction);
       if (!connection) throw new Error('error');
       return await connection.sendRawTransaction(signedTx.serialize());
     },

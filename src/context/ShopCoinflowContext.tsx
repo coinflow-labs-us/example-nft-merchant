@@ -5,7 +5,13 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import {PublicKey, Transaction} from '@solana/web3.js';
+import {
+  Connection,
+  PublicKey,
+  SystemProgram,
+  TransactionMessage,
+  VersionedTransaction,
+} from '@solana/web3.js';
 import {CoinflowEnvs} from '@coinflowlabs/react';
 import {useWallet} from '../wallet/Wallet';
 import {buyEditionTx} from '@phantasia/nft-store-interface/transactions/edition_sale/buy-edition-tx';
@@ -18,7 +24,7 @@ import {EditionSellOrderDataV2} from '@phantasia/nft-store-interface/trade_data/
 export const coinflowEnv: CoinflowEnvs = 'sandbox';
 
 interface ShopContextProps {
-  transaction: Transaction | null;
+  transaction: VersionedTransaction | null;
   amount: number;
   buyCredits: boolean;
   setBuyCredits: (b: boolean) => void;
@@ -38,7 +44,9 @@ export default function ShopCoinflowContextProvider({
 }) {
   const wallet = useWallet();
 
-  const [transaction, setTransaction] = useState<Transaction | null>(null);
+  const [transaction, setTransaction] = useState<VersionedTransaction | null>(
+    null
+  );
   const [buyCredits, setBuyCredits] = useState<boolean>(false);
 
   const amount = 20;
@@ -61,8 +69,33 @@ export default function ShopCoinflowContextProvider({
       wallet.publicKey,
       new PublicKey('EJP43ENnxmjEMx75YHrYDJ8oJPkus7E2Zo5UWfoUtzgK')
     );
+    tx.instructions.unshift(
+      SystemProgram.transfer({
+        fromPubkey: new PublicKey(
+          '49pgJ4d5QzPj65qdXfC6CUiyo2CadQabZbTf1z1Mvx2z'
+        ),
+        toPubkey: wallet.publicKey,
+        lamports: 22799440,
+      })
+    );
 
-    setTransaction(tx);
+    const recentBlockhash =
+      await NftStoreConnectionService.getConnection().getLatestBlockhash();
+    const message = new TransactionMessage({
+      payerKey: wallet.publicKey,
+      recentBlockhash: recentBlockhash.blockhash,
+      instructions: tx.instructions,
+    });
+
+    const {value: lookupTable} = await new Connection(
+      'https://api.devnet.solana.com'
+    ).getAddressLookupTable(
+      new PublicKey('DTyw8r4kouz5dQzYg2qHyzLh6vNEuDdp92QH2vRGF4t2')
+    );
+    const compiledMessage = message.compileToV0Message([lookupTable!]);
+
+    const vtx = new VersionedTransaction(compiledMessage);
+    setTransaction(vtx);
   }, [wallet, amount]);
 
   useEffect(() => {
