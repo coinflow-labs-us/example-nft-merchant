@@ -6,9 +6,6 @@ import {
   useShop,
 } from './context/ShopCoinflowContext';
 import {useWallet} from './wallet/Wallet';
-import {ADMIN_WALLET, METAPLEX} from './index';
-import {token} from '@metaplex-foundation/js';
-import {PublicKey} from '@solana/web3.js';
 import {NftSuccessModal} from './modals/NftSuccessModal';
 import {CreditsSuccessModal} from './modals/CreditsSuccessModal';
 
@@ -35,52 +32,6 @@ export function CoinflowForm() {
   }, [handleHeight, wallet]);
 
   const {transaction, amount} = useContext(ShopCoinflowContext);
-
-  const mintAndSendNft = useCallback(
-    async (retry: number) => {
-      try {
-        const res = await METAPLEX.nfts().create({
-          uri: 'https://shdw-drive.genesysgo.net/Fwa7houxcUtTKGf1egRUVowgax5zzNLFYkPvggLYexeo/metadata.json',
-          name: 'Sword',
-          sellerFeeBasisPoints: 0,
-          symbol: 'SWRD',
-          creators: [
-            {
-              address: new PublicKey(
-                '63zH5fKvSubyforhkAJEWwaeEUoLe8R864bETRLMrX1t'
-              ),
-              share: 100,
-            },
-          ],
-          isMutable: false,
-        });
-        console.log('Mint complete', res);
-
-        if (wallet.publicKey) {
-          const {response} = await METAPLEX.nfts().transfer({
-            nftOrSft: res.nft,
-            authority: ADMIN_WALLET,
-            fromOwner: ADMIN_WALLET.publicKey,
-            toOwner: wallet.publicKey,
-            amount: token(1),
-          });
-          console.log('Success! Signature: ', response.signature);
-        }
-      } catch (e) {
-        console.error(e);
-        if (retry <= 2) await mintAndSendNft(retry + 1);
-      }
-    },
-    [ADMIN_WALLET, METAPLEX]
-  );
-
-  const onNftSuccess = useCallback(async () => {
-    setTimeout(() => {
-      setNftSuccessOpen(true);
-    }, 1200);
-
-    await mintAndSendNft(0);
-  }, [wallet, ADMIN_WALLET, METAPLEX]);
 
   if (!transaction) return null;
   if (!wallet.connection) return null;
@@ -137,7 +88,7 @@ export function CoinflowForm() {
             merchantId={'nft-example'}
             env={coinflowEnv}
             connection={wallet.connection}
-            onSuccess={onNftSuccess}
+            onSuccess={() => setNftSuccessOpen(true)}
             transaction={transaction}
             amount={amount}
             blockchain={'solana'}
