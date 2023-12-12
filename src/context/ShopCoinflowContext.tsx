@@ -20,6 +20,7 @@ import {
   SolanaNet,
 } from '@phantasia/nft-store-interface';
 import {EditionSellOrderDataV2} from '@phantasia/nft-store-interface/trade_data/edition-data-v2';
+import {RPC_URL} from '../index';
 
 export const coinflowEnv: CoinflowEnvs = 'sandbox';
 
@@ -55,7 +56,7 @@ export default function ShopCoinflowContextProvider({
     if (!wallet || !wallet.publicKey) return;
 
     NftStoreConnectionService.setNet(SolanaNet.DEVNET);
-    NftStoreConnectionService.setConfig('https://api.devnet.solana.com', {
+    NftStoreConnectionService.setConfig(RPC_URL, {
       commitment: 'confirmed',
     });
 
@@ -88,7 +89,7 @@ export default function ShopCoinflowContextProvider({
     });
 
     const {value: lookupTable} = await new Connection(
-      'https://api.devnet.solana.com'
+      RPC_URL
     ).getAddressLookupTable(
       new PublicKey('DTyw8r4kouz5dQzYg2qHyzLh6vNEuDdp92QH2vRGF4t2')
     );

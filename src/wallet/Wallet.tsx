@@ -16,6 +16,7 @@ import {
 import RPC from '../solanaRpc';
 import {Web3Auth} from '@web3auth/modal';
 import {CHAIN_NAMESPACES, SafeEventEmitterProvider} from '@web3auth/base';
+import {RPC_URL} from '../index';
 
 export interface WalletContextProps {
   wallet: null;
@@ -107,8 +108,8 @@ export function WalletContextProvider({children}: {children: ReactNode}) {
           chainConfig: {
             chainNamespace: CHAIN_NAMESPACES.SOLANA,
             chainId: '0x3', // Please use 0x1 for Mainnet, 0x2 for Testnet, 0x3 for Devnet
-            rpcTarget:
-              'https://rpc-devnet.helius.xyz/?api-key=2f915565-3608-4451-9150-4e72f50f10c2', // This is the public RPC we have added, please pass on your own endpoint while creating an app
+            // rpcTarget: process.env.REACT_APP_API_URL, // This is the public RPC we have added, please pass on your own endpoint while creating an app
+            rpcTarget: RPC_URL,
           },
         });
 

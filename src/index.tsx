@@ -17,12 +17,12 @@ const root = ReactDOM.createRoot(
 
 NftStoreConnectionService.setNet(SolanaNet.DEVNET);
 
+export const RPC_URL = 'https://rude-elbertine-fast-devnet.helius-rpc.com/';
+
 const burnerWalletSecretKey =
   'bWn2NgsM9fY4kV4DgKMvnv26qaPiHNJHL973Jek8gP2Xzt6HtvGT34vMj28uyXk7CtzJWYuFC2B4NtuLKr2gd63';
 
-export const SOLANA_CONNECTION = new Connection(
-  process.env.REACT_APP_RPC_URL ?? ''
-);
+export const SOLANA_CONNECTION = new Connection(RPC_URL);
 export const ADMIN_WALLET = Keypair.fromSecretKey(
   bs58.decode(burnerWalletSecretKey)
 );
