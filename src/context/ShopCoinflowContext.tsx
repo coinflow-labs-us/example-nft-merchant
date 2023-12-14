@@ -6,9 +6,9 @@ import React, {
   useState,
 } from 'react';
 import {
-  Connection,
+  ComputeBudgetInstruction,
+  ComputeBudgetProgram,
   PublicKey,
-  SystemProgram,
   TransactionMessage,
   VersionedTransaction,
 } from '@solana/web3.js';
@@ -19,7 +19,6 @@ import {
   NftStoreConnectionService,
   SolanaNet,
 } from '@phantasia/nft-store-interface';
-import {EditionSellOrderDataV2} from '@phantasia/nft-store-interface/trade_data/edition-data-v2';
 import {RPC_URL} from '../index';
 
 export const coinflowEnv: CoinflowEnvs = 'sandbox';
@@ -33,7 +32,7 @@ interface ShopContextProps {
 
 export const ShopCoinflowContext = React.createContext<ShopContextProps>({
   buyCredits: false,
-  setBuyCredits(b: boolean): void {},
+  setBuyCredits(_: boolean): void {},
   transaction: null,
   amount: 0,
 });
@@ -60,42 +59,24 @@ export default function ShopCoinflowContextProvider({
       commitment: 'confirmed',
     });
 
-    const account = await EditionSellOrderDataV2.fromAccount(
-      new PublicKey('Ep7RAdmA46AQNLJh38qWrdC2zEUbc5Z2aKPCvDCWTmoj')
-    );
-    console.log({sellingPrice: account.sellingPrice.toNumber()});
-
     const tx = await buyEditionTx(
       wallet.publicKey,
       wallet.publicKey,
       new PublicKey('EJP43ENnxmjEMx75YHrYDJ8oJPkus7E2Zo5UWfoUtzgK')
     );
-    tx.instructions.unshift(
-      SystemProgram.transfer({
-        fromPubkey: new PublicKey(
-          '49pgJ4d5QzPj65qdXfC6CUiyo2CadQabZbTf1z1Mvx2z'
-        ),
-        toPubkey: wallet.publicKey,
-        lamports: 22799440,
-      })
-    );
+
+    const computeBudgetIx = ComputeBudgetProgram.setComputeUnitLimit({
+      units: 400_000,
+    });
 
     const recentBlockhash =
       await NftStoreConnectionService.getConnection().getLatestBlockhash();
     const message = new TransactionMessage({
       payerKey: wallet.publicKey,
       recentBlockhash: recentBlockhash.blockhash,
-      instructions: tx.instructions,
-    });
-
-    const {value: lookupTable} = await new Connection(
-      RPC_URL
-    ).getAddressLookupTable(
-      new PublicKey('DTyw8r4kouz5dQzYg2qHyzLh6vNEuDdp92QH2vRGF4t2')
-    );
-    const compiledMessage = message.compileToV0Message([lookupTable!]);
-
-    const vtx = new VersionedTransaction(compiledMessage);
+      instructions: [computeBudgetIx, ...tx.instructions],
+    }).compileToV0Message([]);
+    const vtx = new VersionedTransaction(message);
     setTransaction(vtx);
   }, [wallet, amount]);
 

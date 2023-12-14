@@ -92,6 +92,7 @@ export function CoinflowForm() {
             transaction={transaction}
             amount={amount}
             blockchain={'solana'}
+            rent={{lamports: 22799440}}
           />
         </div>
       </div>
