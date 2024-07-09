@@ -58,6 +58,7 @@ export function CoinflowForm() {
                   setCreditSuccessOpen(true);
                 }, 1200);
               }}
+              supportsVersionedTransactions={true}
               blockchain={'solana'}
               handleHeightChange={handleHeightChange}
             />
@@ -91,6 +92,7 @@ export function CoinflowForm() {
             onSuccess={() => setNftSuccessOpen(true)}
             transaction={transaction}
             amount={amount}
+            supportsVersionedTransactions={true}
             blockchain={'solana'}
             rent={{lamports: 22799440}}
           />
