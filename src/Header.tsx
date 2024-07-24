@@ -32,7 +32,7 @@ export function Header() {
       }
     >
       <div
-        className={`p-5 flex w-full items-center space-x-4 px-8 mx-auto max-w-xl`}
+        className={`p-5 flex w-full items-center space-x-4 px-8 mx-auto max-w-xl z-50`}
       >
         <img
           src={
@@ -66,7 +66,7 @@ export function Header() {
       <div
         className={`${
           showHeader ? "opacity-100" : "opacity-0  -translate-y-10"
-        } fixed top-24 bg-slate-100/90 shadow-xl transition-all duration-500 fade-in backdrop-blur-2xl flex items-center space-x-2 p-2 rounded-full`}
+        } fixed top-24 bg-slate-100/90 shadow-xl transition-all duration-500 fade-in backdrop-blur-2xl flex items-center space-x-2 p-2 z-40 rounded-full`}
       >
         <img
           src={focusedNft.image}

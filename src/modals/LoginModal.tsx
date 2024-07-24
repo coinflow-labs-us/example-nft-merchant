@@ -35,9 +35,15 @@ function LoginForm() {
   const { createWallet } = useSolanaWallets();
 
   const { login } = useLogin({
-    onComplete: (user, isNewUser) => {
-      if (user && isNewUser) {
-        createWallet().catch();
+    onComplete: (user) => {
+      if (user) {
+        const hasExistingSolanaWallet = !!user.linkedAccounts.find(
+          (account) =>
+            account.type === "wallet" &&
+            account.walletClientType === "privy" &&
+            account.chainType === "solana"
+        );
+        if (!hasExistingSolanaWallet) createWallet().catch();
       }
     },
   });

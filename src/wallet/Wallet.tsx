@@ -72,7 +72,6 @@ export function WalletContextProvider({ children }: { children: ReactNode }) {
       ))!;
 
       const signedTransaction = transaction.serialize();
-      console.log(Buffer.from(signedTransaction).toString("base64"));
       await connection.sendRawTransaction(signedTransaction);
     },
     [connection, signTransaction]
