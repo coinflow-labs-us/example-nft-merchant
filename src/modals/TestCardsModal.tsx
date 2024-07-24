@@ -1,9 +1,9 @@
-import {Dialog, Transition} from '@headlessui/react';
-import React, {Fragment, useState} from 'react';
-import mcLogo from '../assets/cards/mastercard.png';
-import visaLogo from '../assets/cards/visa.png';
-import dcLogo from '../assets/cards/discover.png';
-import amexLogo from '../assets/cards/amex.png';
+import { Dialog, Transition } from "@headlessui/react";
+import { Fragment, useState } from "react";
+import mcLogo from "../assets/cards/mastercard.png";
+import visaLogo from "../assets/cards/visa.png";
+import dcLogo from "../assets/cards/discover.png";
+import amexLogo from "../assets/cards/amex.png";
 
 export function TestCardsModal({
   isOpen,
@@ -51,7 +51,7 @@ export function TestCardsModal({
                     Test credit cards
                   </Dialog.Title>
                   <div className="mt-1">
-                    <p className="text-sm text-zinc-600">
+                    <p className="text-sm text-slate-600">
                       Any future expiration date and CVV number will work for
                       testing
                     </p>
@@ -63,10 +63,10 @@ export function TestCardsModal({
                     as="h3"
                     className="text-lg leading-6 text-slate-900 font-semibold"
                   >
-                    Simulate <span className={'text-red-600'}>failure</span>
+                    Simulate <span className={"text-red-600"}>failure</span>
                   </Dialog.Title>
                   <div className="mt-2">
-                    <p className="text-sm text-zinc-600 text-center">
+                    <p className="text-sm text-slate-600 text-center">
                       Use '99999' as your zip code on checkout
                     </p>
                   </div>
@@ -74,7 +74,7 @@ export function TestCardsModal({
                   <div className="mt-6 flex justify-end w-full">
                     <button
                       type="button"
-                      className="transition rounded-2xl border border-transparent bg-zinc-100 px-4 py-3 text-sm font-semibold text-slate-900 hover:bg-blue-500 focus:outline-none"
+                      className="transition rounded-2xl border border-transparent bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-900 hover:bg-blue-500 focus:outline-none"
                       onClick={() => {
                         closeModal();
                       }}
@@ -92,33 +92,33 @@ export function TestCardsModal({
   );
 }
 
-function TestCardPanel({close}: {close: () => void}) {
+function TestCardPanel({ close }: { close: () => void }) {
   const testCards = [
     {
-      number: '4111111111111111',
-      display: '4111 1111 1111 1111',
+      number: "4111111111111111",
+      display: "4111 1111 1111 1111",
       img: visaLogo,
     },
     {
-      number: '5431111111111111',
-      display: '5431 1111 1111 1111',
+      number: "5431111111111111",
+      display: "5431 1111 1111 1111",
       img: mcLogo,
     },
     {
-      number: '378282246310005',
-      display: '3782 822463 10005',
+      number: "378282246310005",
+      display: "3782 822463 10005",
       img: amexLogo,
     },
     {
-      number: '6011111111111117',
-      display: '6011 1111 1111 1117',
+      number: "6011111111111117",
+      display: "6011 1111 1111 1117",
       img: dcLogo,
     },
   ];
 
   return (
-    <div className={'flex-col'}>
-      {testCards.map(card => (
+    <div className={"flex-col"}>
+      {testCards.map((card) => (
         <TestCardItem close={close} {...card} key={card.number} />
       ))}
     </div>
@@ -149,20 +149,20 @@ function TestCardItem({
         }, 500);
       }}
       className={
-        'flex flex-row items-center space-x-3 group cursor-pointer h-12 w-full'
+        "flex flex-row items-center space-x-3 group cursor-pointer h-12 w-full"
       }
     >
-      <img src={img} alt={'card'} className={'w-5 object-contain'} />
+      <img src={img} alt={"card"} className={"w-5 object-contain"} />
       <span
         className={
-          'text-zinc-600 font-semibold text-sm group-hover:text-slate-900 transition flex-1'
+          "text-slate-600 font-semibold text-sm group-hover:text-slate-900 transition flex-1"
         }
       >
-        {copied ? 'Copied!' : display}
+        {copied ? "Copied!" : display}
       </span>
       <i
         className={
-          'bx bx-copy-alt text-sm text-zinc-500 group-hover:text-slate-900 transition'
+          "bx bx-copy-alt text-sm text-slate-500 group-hover:text-slate-900 transition"
         }
       />
     </div>

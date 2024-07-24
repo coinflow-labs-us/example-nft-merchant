@@ -1,5 +1,5 @@
-import {Dialog, Transition} from '@headlessui/react';
-import React, {Fragment} from 'react';
+import { Dialog, Transition } from "@headlessui/react";
+import { Fragment } from "react";
 
 export function CreditsSuccessModal({
   isOpen,
@@ -42,15 +42,15 @@ export function CreditsSuccessModal({
                 <Dialog.Panel className="backdrop-blur-xl items-center flex flex-col backdrop-filter w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <div
                     className={
-                      'p-5 rounded-2xl shadow-2xl bg-zinc-300 backdrop-blur-2xl w-16 h-16 mb-3'
+                      "p-5 rounded-2xl shadow-2xl bg-slate-300 backdrop-blur-2xl w-16 h-16 mb-3"
                     }
                   >
                     <img
                       src={
-                        'https://static.wikia.nocookie.net/aqwikia/images/c/ca/Sword_Master_Emblem.png'
+                        "https://static.wikia.nocookie.net/aqwikia/images/c/ca/Sword_Master_Emblem.png"
                       }
-                      alt={'nft'}
-                      className={'w-full object-contain'}
+                      alt={"nft"}
+                      className={"w-full object-contain"}
                     />
                   </div>
                   <Dialog.Title
@@ -60,7 +60,7 @@ export function CreditsSuccessModal({
                     Credits received
                   </Dialog.Title>
                   <div className="mt-2">
-                    <p className="text-sm text-zinc-600 text-center">
+                    <p className="text-sm text-slate-600 text-center">
                       Your purchase was successful & your balance will increase.
                       Let's spend it on a sword collectible!
                     </p>
