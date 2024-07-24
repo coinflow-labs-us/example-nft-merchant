@@ -11,7 +11,7 @@ import {
   Transaction,
   VersionedTransaction,
 } from "@solana/web3.js";
-import { useSolanaWallets, useWallets } from "@privy-io/react-auth";
+import { useSolanaWallets, usePrivy } from "@privy-io/react-auth";
 import { SolanaWallet } from "@coinflowlabs/react";
 
 export interface WalletContextProps {
@@ -31,7 +31,7 @@ const WalletContext = createContext<WalletContextProps>({
 
 export function WalletContextProvider({ children }: { children: ReactNode }) {
   const { wallets } = useSolanaWallets();
-  const { ready } = useWallets();
+  const { ready, user } = usePrivy();
 
   const connection = useMemo(() => {
     return new Connection(import.meta.env.VITE_RPC_URL, "confirmed");
@@ -81,7 +81,8 @@ export function WalletContextProvider({ children }: { children: ReactNode }) {
     <WalletContext.Provider
       value={{
         wallet: {
-          publicKey: solanaWallet ? new PublicKey(solanaWallet.address) : null,
+          publicKey:
+            user && solanaWallet ? new PublicKey(solanaWallet.address) : null,
           signTransaction,
           sendTransaction,
         },

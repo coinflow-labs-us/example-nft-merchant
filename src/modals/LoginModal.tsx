@@ -1,6 +1,7 @@
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { useLogin, usePrivy, useSolanaWallets } from "@privy-io/react-auth";
 import { LoadingSpinner } from "../App.tsx";
+import { useCallback, useEffect } from "react";
 
 export function LoginModal() {
   const { ready, authenticated } = usePrivy();
@@ -11,7 +12,7 @@ export function LoginModal() {
         open={!ready || !authenticated}
         onClose={() => {}}
         transition
-        className="relative z-50 transition duration-300 ease-out data-[closed]:opacity-0 z-50"
+        className="relative transition duration-300 ease-out data-[closed]:opacity-0 z-50"
       >
         <DialogBackdrop
           transition
@@ -33,9 +34,25 @@ export function LoginModal() {
 
 function LoginForm() {
   const { createWallet } = useSolanaWallets();
+  const { user, authenticated } = usePrivy();
 
   const { login } = useLogin({
-    onComplete: (user) => {
+    onComplete: (
+      user,
+      isNewUser,
+      wasAlreadyAuthenticated,
+      loginMethod,
+      linkedAccount
+    ) => {
+      console.log(
+        user,
+        isNewUser,
+        wasAlreadyAuthenticated,
+        loginMethod,
+        linkedAccount
+      );
+
+      console.log("user", user);
       if (user) {
         const hasExistingSolanaWallet = !!user.linkedAccounts.find(
           (account) =>
@@ -47,6 +64,22 @@ function LoginForm() {
       }
     },
   });
+
+  const createSolanaWallet = useCallback(async () => {
+    if (user) {
+      const hasExistingSolanaWallet = !!user.linkedAccounts.find(
+        (account) =>
+          account.type === "wallet" &&
+          account.walletClientType === "privy" &&
+          account.chainType === "solana"
+      );
+      if (!hasExistingSolanaWallet) await createWallet();
+    }
+  }, [createWallet, user]);
+
+  useEffect(() => {
+    if (user && authenticated) createSolanaWallet().catch();
+  }, [authenticated, createSolanaWallet, user]);
 
   const { ready } = usePrivy();
 

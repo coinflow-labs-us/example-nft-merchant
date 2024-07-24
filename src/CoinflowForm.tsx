@@ -4,10 +4,14 @@ import { coinflowEnv, useShop } from "./context/ShopCoinflowContext";
 import { NftSuccessModal } from "./modals/NftSuccessModal";
 import { CreditsSuccessModal } from "./modals/CreditsSuccessModal";
 import { useWallet } from "./wallet/Wallet.tsx";
+import { usePrivy } from "@privy-io/react-auth";
 
 export function CoinflowForm() {
   const { wallet, connection } = useWallet();
   const { buyCredits } = useShop();
+  const { user } = usePrivy();
+
+  console.log({ user });
 
   const [creditSuccessOpen, setCreditSuccessOpen] = useState<boolean>(false);
   const [nftSuccessOpen, setNftSuccessOpen] = useState<boolean>(false);
@@ -29,7 +33,9 @@ export function CoinflowForm() {
 
   const { transaction, amount } = useShop();
 
-  if (!transaction || !wallet || !connection) return null;
+  console.log(wallet.publicKey?.toString());
+
+  if (!transaction || !wallet || !wallet.publicKey || !connection) return null;
 
   if (buyCredits) {
     return (
