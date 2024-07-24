@@ -21,7 +21,6 @@ function App() {
   const {
     user,
     authenticated,
-    ready,
     isModalOpen,
     createWallet: createEvmWallet,
   } = usePrivy();
