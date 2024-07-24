@@ -17,9 +17,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       appId="cltehkuq70chxmee356zvcp7e"
       config={{
         loginMethods: ["email"],
-        embeddedWallets: {
-          createOnLogin: "users-without-wallets",
-        },
       }}
     >
       <App />

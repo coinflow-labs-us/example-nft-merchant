@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useCallback, useEffect } from "react";
 import "./App.css";
 import { useWallet, WalletContextProvider } from "./wallet/Wallet";
 import { BrowserRouter } from "react-router-dom";
@@ -7,6 +7,7 @@ import { CoinflowForm } from "./CoinflowForm";
 import { DirectPurchaseForm } from "./DirectPurchaseForm";
 import { Header } from "./Header";
 import { LoginModal } from "./modals/LoginModal.tsx";
+import { useSolanaWallets, usePrivy } from "@privy-io/react-auth";
 
 export const focusedNft = {
   image:
@@ -15,23 +16,60 @@ export const focusedNft = {
 };
 
 function App() {
+  const { createWallet } = useSolanaWallets();
+
+  const {
+    user,
+    authenticated,
+    ready,
+    isModalOpen,
+    createWallet: createEvmWallet,
+  } = usePrivy();
+
+  const createWallets = useCallback(async () => {
+    if (user) {
+      const hasExistingSolanaWallet = !!user.linkedAccounts.find(
+        (account) =>
+          account.type === "wallet" &&
+          account.walletClientType === "privy" &&
+          account.chainType === "solana"
+      );
+      if (!hasExistingSolanaWallet) {
+        if (user.linkedAccounts.length === 1) await createEvmWallet(); // Privy docs recommend creating EVM wallet first
+        await createWallet();
+      }
+    }
+  }, [createEvmWallet, createWallet, user]);
+
+  useEffect(() => {
+    if (user && authenticated && !isModalOpen) createWallets().catch();
+  }, [authenticated, createWallets, user, isModalOpen]);
+
   return (
     <ContextWrapper>
       {/*{authenticated ? <TourComponent /> : null}*/}
+      <AppContent />
+    </ContextWrapper>
+  );
+}
 
-      <ShopCoinflowContextProvider>
-        <div className={"w-full flex flex-col h-screen relative bg-white"}>
-          <div className={"flex flex-col max-h-none h-auto w-full flex-1"}>
-            <Header />
-            <div className={"flex flex-col flex-1 w-screen max-w-xl mx-auto"}>
-              <DirectPurchaseForm />
-              <Content />
-              <LoginModal />
-            </div>
+function AppContent() {
+  const { user, ready } = usePrivy();
+
+  if (!user || !ready) return <LoginModal />;
+
+  return (
+    <ShopCoinflowContextProvider>
+      <div className={"w-full flex flex-col h-screen relative bg-white"}>
+        <div className={"flex flex-col max-h-none h-auto w-full flex-1"}>
+          <Header />
+          <div className={"flex flex-col flex-1 w-screen max-w-xl mx-auto"}>
+            <DirectPurchaseForm />
+            <CoinflowContent />
           </div>
         </div>
-      </ShopCoinflowContextProvider>
-    </ContextWrapper>
+      </div>
+    </ShopCoinflowContextProvider>
   );
 }
 
@@ -51,7 +89,7 @@ function App() {
 //   );
 // }
 
-function Content() {
+function CoinflowContent() {
   const { wallet } = useWallet();
 
   if (!wallet.publicKey) return null;

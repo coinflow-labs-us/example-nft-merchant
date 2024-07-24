@@ -11,8 +11,6 @@ export function CoinflowForm() {
   const { buyCredits } = useShop();
   const { user } = usePrivy();
 
-  console.log({ user });
-
   const [creditSuccessOpen, setCreditSuccessOpen] = useState<boolean>(false);
   const [nftSuccessOpen, setNftSuccessOpen] = useState<boolean>(false);
 
@@ -32,8 +30,6 @@ export function CoinflowForm() {
   }, [handleHeight, wallet]);
 
   const { transaction, amount } = useShop();
-
-  console.log(wallet.publicKey?.toString());
 
   if (!transaction || !wallet || !wallet.publicKey || !connection) return null;
 

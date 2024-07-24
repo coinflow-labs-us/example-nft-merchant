@@ -38,9 +38,11 @@ export function WalletContextProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const solanaWallet = useMemo(() => {
-    if (wallets.length === 0) return null;
+    if (!user || user.linkedAccounts.length !== 3 || wallets.length === 0)
+      // 3 accounts, email, EVM, solana
+      return null;
     return wallets[0];
-  }, [wallets]);
+  }, [user, wallets]);
 
   const signTransaction = useCallback(
     async (

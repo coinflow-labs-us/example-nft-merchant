@@ -1,87 +1,17 @@
-import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
-import { useLogin, usePrivy, useSolanaWallets } from "@privy-io/react-auth";
+import { useLogin, usePrivy } from "@privy-io/react-auth";
 import { LoadingSpinner } from "../App.tsx";
-import { useCallback, useEffect } from "react";
 
 export function LoginModal() {
-  const { ready, authenticated } = usePrivy();
-
   return (
-    <>
-      <Dialog
-        open={!ready || !authenticated}
-        onClose={() => {}}
-        transition
-        className="relative transition duration-300 ease-out data-[closed]:opacity-0 z-50"
-      >
-        <DialogBackdrop
-          transition
-          className="fixed inset-0 bg-black/30 backdrop-blur-xl transition-all duration-300 delay-100 ease-out data-[closed]:opacity-0"
-        />
-
-        <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-          <DialogPanel
-            transition
-            className="w-full max-w-sm h-96 space-y-4 bg-white/70 backdrop-blur-2xl rounded-2xl ring-1 ring-black/5 p-12"
-          >
-            <LoginForm />
-          </DialogPanel>
-        </div>
-      </Dialog>
-    </>
+    <div className={"w-full max-w-sm h-full flex items-center justify-center"}>
+      <LoginForm />
+    </div>
   );
 }
 
 function LoginForm() {
-  const { createWallet } = useSolanaWallets();
-  const { user, authenticated } = usePrivy();
-
-  const { login } = useLogin({
-    onComplete: (
-      user,
-      isNewUser,
-      wasAlreadyAuthenticated,
-      loginMethod,
-      linkedAccount
-    ) => {
-      console.log(
-        user,
-        isNewUser,
-        wasAlreadyAuthenticated,
-        loginMethod,
-        linkedAccount
-      );
-
-      console.log("user", user);
-      if (user) {
-        const hasExistingSolanaWallet = !!user.linkedAccounts.find(
-          (account) =>
-            account.type === "wallet" &&
-            account.walletClientType === "privy" &&
-            account.chainType === "solana"
-        );
-        if (!hasExistingSolanaWallet) createWallet().catch();
-      }
-    },
-  });
-
-  const createSolanaWallet = useCallback(async () => {
-    if (user) {
-      const hasExistingSolanaWallet = !!user.linkedAccounts.find(
-        (account) =>
-          account.type === "wallet" &&
-          account.walletClientType === "privy" &&
-          account.chainType === "solana"
-      );
-      if (!hasExistingSolanaWallet) await createWallet();
-    }
-  }, [createWallet, user]);
-
-  useEffect(() => {
-    if (user && authenticated) createSolanaWallet().catch();
-  }, [authenticated, createSolanaWallet, user]);
-
   const { ready } = usePrivy();
+  const { login } = useLogin();
 
   if (!ready)
     return (
@@ -99,7 +29,7 @@ function LoginForm() {
     <div className={"flex flex-1"}>
       <div
         className={
-          "flex flex-col m-auto mt-0 lg:mt-10 rounded-t-3xl items-center justify-center w-full shadow-2xl lg:shadow-none lg:max-w-[300px] p-6 md:rounded-lg"
+          "flex flex-col m-auto mt-0 lg:mt-10 rounded-t-3xl items-center justify-center w-full p-6"
         }
       >
         <div
@@ -119,13 +49,11 @@ function LoginForm() {
         <div className={"my-8 w-full h-[0.5px] bg-black/5"} />
         <button
           className={
-            "joyride-step-3 outline-none bg-slate-900 rounded-full h-14 w-full flex items-center justify-center hover:bg-slate-800 transition cursor-pointer"
+            "joyride-step-3 outline-none bg-slate-900 text-sm font-semibold text-white rounded-full h-14 w-full flex items-center justify-center hover:bg-slate-800 transition"
           }
           onClick={login}
         >
-          <span className={"text-sm font-semibold text-white"}>
-            Login to Purchase
-          </span>
+          Login to Purchase
         </button>
       </div>
     </div>
