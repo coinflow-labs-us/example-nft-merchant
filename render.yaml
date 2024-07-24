@@ -3,10 +3,10 @@ services:
     name: demo-merchant
     domains:
       - example.coinflow.cash
-    env: static
+    runtime: static
     branch: main
     buildCommand: npm ci && npm run build
-    staticPublishPath: build
+    staticPublishPath: dist
     routes:
       - type: rewrite
         source: /*
