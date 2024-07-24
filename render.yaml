@@ -11,3 +11,6 @@ services:
       - type: rewrite
         source: /*
         destination: /index.html
+    envVars:
+      - key: VITE_RPC_URL
+        value: https://phantasi-develope-8dd8.devnet.rpcpool.com/c4188c94-d47c-43d0-bbc0-bad3dbd2af4e
