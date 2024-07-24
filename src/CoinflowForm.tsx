@@ -4,6 +4,7 @@ import { coinflowEnv, useShop } from "./context/ShopCoinflowContext";
 import { NftSuccessModal } from "./modals/NftSuccessModal";
 import { CreditsSuccessModal } from "./modals/CreditsSuccessModal";
 import { useWallet } from "./wallet/Wallet.tsx";
+import { LoadingSpinner } from "./App.tsx";
 
 export function CoinflowForm() {
   const { wallet, connection } = useWallet();
@@ -29,19 +30,31 @@ export function CoinflowForm() {
 
   const { transaction, amount } = useShop();
 
-  if (!transaction || !wallet || !wallet.publicKey || !connection) return null;
+  if (!transaction || !wallet || !wallet.publicKey || !connection)
+    return (
+      <div className={"w-full min-h-96 flex items-center justify-center"}>
+        <LoadingSpinner className={"!text-gray-900/20 !fill-gray-900"} />
+      </div>
+    );
 
   if (buyCredits) {
     return (
-      <div className={" w-full flex-1"}>
+      <div className={"w-full flex-1"}>
         <div
           className={
-            "overflow-auto h-auto px-0 lg:px-8 lg:pb-6 flex-1 w-full bg-white"
+            "overflow-auto h-auto px-0 lg:px-8 lg:pb-6 flex-1 w-full bg-white relative"
           }
         >
           <div
+            className={
+              "absolute w-full min-h-96 flex items-center justify-center"
+            }
+          >
+            <LoadingSpinner className={"!text-gray-900/20 !fill-gray-900"} />
+          </div>
+          <div
             style={{ height: `${height}px` }}
-            className={"flex-col h-full flex lg:-mt-12 -mt-12 mx-auto"}
+            className={"flex-col h-full flex -mt-14 mx-auto relative"}
           >
             <CoinflowPurchase
               wallet={wallet}
@@ -70,12 +83,19 @@ export function CoinflowForm() {
     <div className={" w-full flex-1"}>
       <div
         className={
-          "overflow-auto h-auto px-0 lg:px-8 lg:pb-6 flex-1 w-full bg-white"
+          "overflow-auto h-auto px-0 lg:px-8 lg:pb-6 flex-1 w-full bg-white relative"
         }
       >
         <div
+          className={
+            "absolute w-full min-h-96 flex items-center justify-center"
+          }
+        >
+          <LoadingSpinner className={"!text-gray-900/20 !fill-gray-900"} />
+        </div>
+        <div
           style={{ height: `${height}px` }}
-          className={"flex-col h-full flex lg:-mt-12 -mt-10 mx-auto"}
+          className={"flex-col h-full flex -mt-12 mx-auto relative"}
         >
           <CoinflowPurchase
             handleHeightChange={handleHeightChange}
