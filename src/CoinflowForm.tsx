@@ -1,17 +1,13 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
-import {CoinflowPurchase} from '@coinflowlabs/react';
-import {
-  coinflowEnv,
-  ShopCoinflowContext,
-  useShop,
-} from './context/ShopCoinflowContext';
-import {useWallet} from './wallet/Wallet';
-import {NftSuccessModal} from './modals/NftSuccessModal';
-import {CreditsSuccessModal} from './modals/CreditsSuccessModal';
+import { useCallback, useEffect, useState } from "react";
+import { CoinflowPurchase } from "@coinflowlabs/react";
+import { coinflowEnv, useShop } from "./context/ShopCoinflowContext";
+import { NftSuccessModal } from "./modals/NftSuccessModal";
+import { CreditsSuccessModal } from "./modals/CreditsSuccessModal";
+import { useWallet } from "./wallet/Wallet.tsx";
 
 export function CoinflowForm() {
-  const wallet = useWallet();
-  const {buyCredits} = useShop();
+  const { wallet, connection } = useWallet();
+  const { buyCredits } = useShop();
 
   const [creditSuccessOpen, setCreditSuccessOpen] = useState<boolean>(false);
   const [nftSuccessOpen, setNftSuccessOpen] = useState<boolean>(false);
@@ -31,35 +27,33 @@ export function CoinflowForm() {
     }
   }, [handleHeight, wallet]);
 
-  const {transaction, amount} = useContext(ShopCoinflowContext);
+  const { transaction, amount } = useShop();
 
-  if (!transaction) return null;
-  if (!wallet.connection) return null;
+  if (!transaction || !wallet || !connection) return null;
 
   if (buyCredits) {
     return (
-      <div className={'bg-zinc-200 lg:bg-white w-full flex-1'}>
+      <div className={" w-full flex-1"}>
         <div
           className={
-            'overflow-auto h-auto px-0 lg:px-8 lg:pb-6 flex-1 w-full rounded-t-[30px] bg-white'
+            "overflow-auto h-auto px-0 lg:px-8 lg:pb-6 flex-1 w-full bg-white"
           }
         >
           <div
-            style={{height: `${height}px`}}
-            className={'flex-col h-full flex lg:-mt-12 -mt-12 mx-auto'}
+            style={{ height: `${height}px` }}
+            className={"flex-col h-full flex lg:-mt-12 -mt-12 mx-auto"}
           >
             <CoinflowPurchase
               wallet={wallet}
-              merchantId={'nft-example'}
+              merchantId={"nft-example"}
               env={coinflowEnv}
-              connection={wallet.connection}
+              connection={connection}
               onSuccess={() => {
                 setTimeout(() => {
                   setCreditSuccessOpen(true);
                 }, 1200);
               }}
-              supportsVersionedTransactions={true}
-              blockchain={'solana'}
+              blockchain={"solana"}
               handleHeightChange={handleHeightChange}
             />
           </div>
@@ -73,28 +67,27 @@ export function CoinflowForm() {
   }
 
   return (
-    <div className={'bg-zinc-200 lg:bg-white w-full flex-1'}>
+    <div className={" w-full flex-1"}>
       <div
         className={
-          'overflow-auto h-auto px-0 lg:px-8 lg:pb-6 flex-1 w-full rounded-t-[30px] bg-white'
+          "overflow-auto h-auto px-0 lg:px-8 lg:pb-6 flex-1 w-full bg-white"
         }
       >
         <div
-          style={{height: `${height}px`}}
-          className={'flex-col h-full flex lg:-mt-12 -mt-10 mx-auto'}
+          style={{ height: `${height}px` }}
+          className={"flex-col h-full flex lg:-mt-12 -mt-10 mx-auto"}
         >
           <CoinflowPurchase
             handleHeightChange={handleHeightChange}
             wallet={wallet}
-            merchantId={'nft-example'}
+            merchantId={"nft-example"}
             env={coinflowEnv}
-            connection={wallet.connection}
+            connection={connection}
             onSuccess={() => setNftSuccessOpen(true)}
             transaction={transaction}
             amount={amount}
-            supportsVersionedTransactions={true}
-            blockchain={'solana'}
-            rent={{lamports: 22799440}}
+            blockchain={"solana"}
+            rent={{ lamports: 22799440 }}
           />
         </div>
       </div>

@@ -1,49 +1,32 @@
-import React, {ReactNode, useState} from 'react';
-import './App.css';
-import {useWallet, WalletContextProvider} from './wallet/Wallet';
-import {BrowserRouter} from 'react-router-dom';
-import ShopCoinflowContextProvider from './context/ShopCoinflowContext';
-import {CoinflowForm} from './CoinflowForm';
-import {DirectPurchaseForm} from './DirectPurchaseForm';
-import {Header} from './Header';
-import Joyride from 'react-joyride';
-import {TourTooltip} from './TourTooltip';
-import {useTour} from './context/useTour';
-import {
-  Dialog,
-  DialogPanel,
-  DialogTitle,
-  Field,
-  Input,
-  Label,
-} from '@headlessui/react';
-import {useMetakeepStore} from './context/useMetakeepStore';
+import { ReactNode } from "react";
+import "./App.css";
+import { useWallet, WalletContextProvider } from "./wallet/Wallet";
+import { BrowserRouter } from "react-router-dom";
+import ShopCoinflowContextProvider from "./context/ShopCoinflowContext";
+import { CoinflowForm } from "./CoinflowForm";
+import { DirectPurchaseForm } from "./DirectPurchaseForm";
+import { Header } from "./Header";
+import { LoginModal } from "./modals/LoginModal.tsx";
 
 export const focusedNft = {
   image:
-    'https://opengameart.org/sites/default/files/short_sword_game_item.jpg',
-  name: 'Test NFT',
+    "https://opengameart.org/sites/default/files/short_sword_game_item.jpg",
+  name: "Test NFT",
 };
 
 function App() {
   return (
     <ContextWrapper>
-      <TourComponent />
+      {/*{authenticated ? <TourComponent /> : null}*/}
+
       <ShopCoinflowContextProvider>
-        <div className={'w-full flex flex-col h-screen relative bg-white'}>
-          <div
-            className={
-              'flex flex-col lg:flex-row max-h-none h-auto lg:max-h-screen lg:h-screen w-full flex-1'
-            }
-          >
-            <DirectPurchaseForm />
-            <div
-              className={
-                'flex flex-col flex-1 bg-white overflow-auto h-screen static lg:relative'
-              }
-            >
-              <Header />
+        <div className={"w-full flex flex-col h-screen relative bg-white"}>
+          <div className={"flex flex-col max-h-none h-auto w-full flex-1"}>
+            <Header />
+            <div className={"flex flex-col flex-1 w-screen max-w-xl mx-auto"}>
+              <DirectPurchaseForm />
               <Content />
+              <LoginModal />
             </div>
           </div>
         </div>
@@ -52,106 +35,31 @@ function App() {
   );
 }
 
-function TourComponent() {
-  const {skipTour, steps} = useTour();
-
-  return (
-    <Joyride
-      run={!skipTour}
-      tooltipComponent={TourTooltip}
-      steps={steps}
-      showSkipButton
-      showProgress
-      scrollToFirstStep
-      continuous
-    />
-  );
-}
+// function TourComponent() {
+//   const { skipTour, steps } = useTour();
+//
+//   return (
+//     <Joyride
+//       run={!skipTour}
+//       tooltipComponent={TourTooltip}
+//       steps={steps}
+//       showSkipButton
+//       showProgress
+//       scrollToFirstStep
+//       continuous
+//     />
+//   );
+// }
 
 function Content() {
-  const {publicKey} = useWallet();
+  const { wallet } = useWallet();
 
-  if (!publicKey) return <LoginForm />;
+  if (!wallet.publicKey) return null;
 
   return <CoinflowForm />;
 }
 
-function LoginForm() {
-  const {connect, initialized} = useWallet();
-  const {email, setEmail} = useMetakeepStore();
-  const [loading, setLoading] = useState<boolean>(false);
-
-  const login = async () => {
-    setLoading(true);
-    const metakeep = await connect(email);
-    if (!metakeep) return;
-    await metakeep.signMessage(
-      Buffer.from("Let's Battle").toString('utf8'),
-      'Sign in'
-    );
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    setLoading(false);
-  };
-
-  if (!initialized)
-    return (
-      <div className={'flex flex-col items-center justify-center flex-1'}>
-        <LoadingSpinner className={'text-gray-900/20 fill-gray-900'} />
-        <span className={'text-gray-900 font-medium mt-5 text-xs'}>
-          Signing you in...
-        </span>
-      </div>
-    );
-
-  return (
-    <div className={'bg-zinc-200 lg:bg-white flex flex-1'}>
-      <div
-        className={
-          'flex flex-col m-auto ring-0 lg:ring-1 ring-black/5 mt-0 lg:mt-10 rounded-t-3xl bg-white items-center justify-center w-full shadow-2xl lg:shadow-none lg:max-w-[300px] p-6 md:rounded-lg'
-        }
-      >
-        <div
-          className={
-            'rounded-2xl h-11 w-11 bg-teal-500/20 ring-[0.5px] ring-black/5 flex items-center justify-center mb-3'
-          }
-        >
-          <img
-            className={'w-7 h-7 object-contain'}
-            src={'https://i.redd.it/m72vtq2jtoq51.png'}
-            alt={'sword'}
-          />
-        </div>
-        <h3 className={'font-semibold text-base text-gray-900'}>
-          Sign in to Battle Brawlers
-        </h3>
-        <div className={'my-8 w-full h-[0.5px] bg-black/5'} />
-
-        <Field className={'w-full'}>
-          <Input
-            placeholder={'Email address'}
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            className={
-              'mb-6 flex w-full rounded-lg border-none bg-gray-100 ring-1 ring-black/5 h-12 px-4 text-sm/6 text-gray-950 focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25'
-            }
-          />
-        </Field>
-        <button
-          className={
-            'joyride-step-3 bg-gray-900 rounded-xl h-12 w-full flex items-center justify-center hover:bg-gray-800 transition cursor-pointer'
-          }
-          onClick={login}
-        >
-          <span className={'text-xs font-semibold text-white'}>
-            {loading ? <LoadingSpinner /> : 'Login to Purchase'}
-          </span>
-        </button>
-      </div>
-    </div>
-  );
-}
-
-export function LoadingSpinner({className}: {className?: string}) {
+export function LoadingSpinner({ className }: { className?: string }) {
   return (
     <div role="status">
       <svg
@@ -175,10 +83,10 @@ export function LoadingSpinner({className}: {className?: string}) {
   );
 }
 
-function ContextWrapper({children}: {children: ReactNode}) {
+function ContextWrapper({ children }: { children: ReactNode }) {
   return (
     <div
-      className={'flex flex-col items-center justify-center h-screen w-screen'}
+      className={"flex flex-col items-center justify-center h-screen w-screen"}
     >
       <WalletContextProvider>
         <BrowserRouter>{children}</BrowserRouter>

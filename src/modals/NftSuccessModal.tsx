@@ -1,6 +1,6 @@
-import {Dialog, Transition} from '@headlessui/react';
-import React, {Fragment, useState} from 'react';
-import {focusedNft} from '../App';
+import { Dialog, Transition } from "@headlessui/react";
+import { Fragment } from "react";
+import { focusedNft } from "../App";
 
 export function NftSuccessModal({
   isOpen,
@@ -43,13 +43,13 @@ export function NftSuccessModal({
                 <Dialog.Panel className="backdrop-blur-xl items-center flex flex-col backdrop-filter w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <div
                     className={
-                      'p-1 rounded-2xl shadow-2xl bg-zinc-300 backdrop-blur-2xl w-32 mb-3'
+                      "p-1 rounded-2xl shadow-2xl bg-slate-300 backdrop-blur-2xl w-32 mb-3"
                     }
                   >
                     <img
                       src={focusedNft.image}
-                      alt={'nft'}
-                      className={'w-full rounded-xl'}
+                      alt={"nft"}
+                      className={"w-full rounded-xl"}
                     />
                   </div>
                   <Dialog.Title
@@ -59,7 +59,7 @@ export function NftSuccessModal({
                     Purchase successful
                   </Dialog.Title>
                   <div className="mt-2">
-                    <p className="text-sm text-zinc-600 text-center">
+                    <p className="text-sm text-slate-600 text-center">
                       Your payment has been successfully submitted & you've
                       received your item!
                     </p>

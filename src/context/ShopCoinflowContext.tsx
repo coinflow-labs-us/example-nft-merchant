@@ -4,24 +4,22 @@ import React, {
   useContext,
   useEffect,
   useState,
-} from 'react';
+} from "react";
 import {
-  ComputeBudgetInstruction,
   ComputeBudgetProgram,
   PublicKey,
   TransactionMessage,
   VersionedTransaction,
-} from '@solana/web3.js';
-import {CoinflowEnvs} from '@coinflowlabs/react';
-import {useWallet} from '../wallet/Wallet';
-import {buyEditionTx} from '@phantasia/nft-store-interface/transactions/edition_sale/buy-edition-tx';
+} from "@solana/web3.js";
+import { CoinflowEnvs } from "@coinflowlabs/react";
+import { buyEditionTx } from "@phantasia/nft-store-interface/transactions/edition_sale/buy-edition-tx";
 import {
   NftStoreConnectionService,
   SolanaNet,
-} from '@phantasia/nft-store-interface';
-import {RPC_URL} from '../index';
+} from "@phantasia/nft-store-interface";
+import { useWallet } from "../wallet/Wallet.tsx";
 
-export const coinflowEnv: CoinflowEnvs = 'sandbox';
+export const coinflowEnv: CoinflowEnvs = "sandbox";
 
 interface ShopContextProps {
   transaction: VersionedTransaction | null;
@@ -32,7 +30,7 @@ interface ShopContextProps {
 
 export const ShopCoinflowContext = React.createContext<ShopContextProps>({
   buyCredits: false,
-  setBuyCredits(_: boolean): void {},
+  setBuyCredits(): void {},
   transaction: null,
   amount: 0,
 });
@@ -42,7 +40,7 @@ export default function ShopCoinflowContextProvider({
 }: {
   children: ReactNode;
 }) {
-  const wallet = useWallet();
+  const { wallet, connection } = useWallet();
 
   const [transaction, setTransaction] = useState<VersionedTransaction | null>(
     null
@@ -52,17 +50,17 @@ export default function ShopCoinflowContextProvider({
   const amount = 20;
 
   const createNewMint = useCallback(async () => {
-    if (!wallet || !wallet.publicKey) return;
+    if (!wallet || !wallet.publicKey || !connection) return;
 
     NftStoreConnectionService.setNet(SolanaNet.DEVNET);
-    NftStoreConnectionService.setConfig(RPC_URL, {
-      commitment: 'confirmed',
+    NftStoreConnectionService.setConfig(import.meta.env.VITE_RPC_URL, {
+      commitment: "confirmed",
     });
 
     const tx = await buyEditionTx(
       wallet.publicKey,
       wallet.publicKey,
-      new PublicKey('EJP43ENnxmjEMx75YHrYDJ8oJPkus7E2Zo5UWfoUtzgK')
+      new PublicKey("EJP43ENnxmjEMx75YHrYDJ8oJPkus7E2Zo5UWfoUtzgK")
     );
 
     const computeBudgetIx = ComputeBudgetProgram.setComputeUnitLimit({
@@ -71,18 +69,21 @@ export default function ShopCoinflowContextProvider({
 
     const recentBlockhash =
       await NftStoreConnectionService.getConnection().getLatestBlockhash();
+
     const message = new TransactionMessage({
       payerKey: wallet.publicKey,
       recentBlockhash: recentBlockhash.blockhash,
       instructions: [computeBudgetIx, ...tx.instructions],
     }).compileToV0Message([]);
+
     const vtx = new VersionedTransaction(message);
+
     setTransaction(vtx);
-  }, [wallet, amount]);
+  }, [connection, wallet]);
 
   useEffect(() => {
     createNewMint().catch();
-  }, [wallet, buyCredits]);
+  }, [wallet, buyCredits, createNewMint]);
 
   return (
     <ShopCoinflowContext.Provider
