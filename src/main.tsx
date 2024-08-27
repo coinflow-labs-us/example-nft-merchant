@@ -16,7 +16,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <PrivyProvider
       appId="cltehkuq70chxmee356zvcp7e"
       config={{
-        loginMethods: ["email"],
+        loginMethods: ["email", "google", "sms"],
       }}
     >
       <App />

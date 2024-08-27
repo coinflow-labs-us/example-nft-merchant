@@ -72,22 +72,6 @@ function AppContent() {
   );
 }
 
-// function TourComponent() {
-//   const { skipTour, steps } = useTour();
-//
-//   return (
-//     <Joyride
-//       run={!skipTour}
-//       tooltipComponent={TourTooltip}
-//       steps={steps}
-//       showSkipButton
-//       showProgress
-//       scrollToFirstStep
-//       continuous
-//     />
-//   );
-// }
-
 function CoinflowContent() {
   const { wallet } = useWallet();
 
