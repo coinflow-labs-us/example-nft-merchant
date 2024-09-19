@@ -19,7 +19,7 @@ import {
 } from "@phantasia/nft-store-interface";
 import { useWallet } from "../wallet/Wallet.tsx";
 
-export const coinflowEnv: CoinflowEnvs = "staging";
+export const coinflowEnv: CoinflowEnvs = import.meta.env.VITE_ENV as CoinflowEnvs;
 
 interface ShopContextProps {
   transaction: VersionedTransaction | null;

@@ -95,7 +95,7 @@ export function CoinflowForm() {
         </div>
         <div
           style={{ height: `${height}px` }}
-          className={"flex-col h-full flex -mt-12 mx-auto relative"}
+          className={"flex-col h-full flex mx-auto relative"}
         >
           <CoinflowPurchase
             handleHeightChange={handleHeightChange}
