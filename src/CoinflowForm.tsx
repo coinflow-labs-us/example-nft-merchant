@@ -9,7 +9,6 @@ import { LoadingSpinner } from "./App.tsx";
 export function CoinflowForm() {
   const { wallet, connection } = useWallet();
 
-  console.log({ wallet });
   const { buyCredits } = useShop();
 
   const [creditSuccessOpen, setCreditSuccessOpen] = useState<boolean>(false);
@@ -41,7 +40,7 @@ export function CoinflowForm() {
 
   if (buyCredits) {
     return (
-      <div className={"w-full flex-1"}>
+      <div className={"w-full flex-1 pt-10"}>
         <div
           className={
             "overflow-auto h-auto px-0 lg:px-8 lg:pb-6 flex-1 w-full bg-white relative"
@@ -56,7 +55,7 @@ export function CoinflowForm() {
           </div>
           <div
             style={{ height: `${height}px` }}
-            className={"flex-col h-full flex -mt-14 mx-auto relative"}
+            className={"flex-col h-full flex  mx-auto relative"}
           >
             <CoinflowPurchase
               wallet={wallet}
@@ -82,7 +81,7 @@ export function CoinflowForm() {
   }
 
   return (
-    <div className={" w-full flex-1"}>
+    <div className={" w-full flex-1 pt-10"}>
       <div
         className={
           "overflow-auto h-auto px-0 lg:px-8 lg:pb-6 flex-1 w-full bg-white relative"

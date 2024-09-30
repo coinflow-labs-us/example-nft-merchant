@@ -8,6 +8,7 @@ import { DirectPurchaseForm } from "./DirectPurchaseForm";
 import { Header } from "./Header";
 import { LoginModal } from "./modals/LoginModal.tsx";
 import { useSolanaWallets, usePrivy } from "@privy-io/react-auth";
+import console from "console";
 
 export const focusedNft = {
   image:
@@ -57,8 +58,6 @@ function AppContent() {
 
   if (!user || !ready) return <LoginModal />;
 
-  console.log(user);
-
   return (
     <ShopCoinflowContextProvider>
       <div className={"w-full flex flex-col h-screen relative bg-white"}>
@@ -75,9 +74,11 @@ function AppContent() {
 }
 
 function CoinflowContent() {
+  const { user } = usePrivy();
   const { wallet } = useWallet();
 
   console.log({ wallet });
+  console.log({ user });
 
   if (!wallet.publicKey) return null;
 
