@@ -8,6 +8,8 @@ import { LoadingSpinner } from "./App.tsx";
 
 export function CoinflowForm() {
   const { wallet, connection } = useWallet();
+
+  console.log({ wallet });
   const { buyCredits } = useShop();
 
   const [creditSuccessOpen, setCreditSuccessOpen] = useState<boolean>(false);

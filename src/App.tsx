@@ -57,6 +57,8 @@ function AppContent() {
 
   if (!user || !ready) return <LoginModal />;
 
+  console.log(user);
+
   return (
     <ShopCoinflowContextProvider>
       <div className={"w-full flex flex-col h-screen relative bg-white"}>
@@ -74,6 +76,8 @@ function AppContent() {
 
 function CoinflowContent() {
   const { wallet } = useWallet();
+
+  console.log({ wallet });
 
   if (!wallet.publicKey) return null;
 

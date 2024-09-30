@@ -38,9 +38,8 @@ export function WalletContextProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const solanaWallet = useMemo(() => {
-    if (!user || user.linkedAccounts.length !== 3 || wallets.length === 0)
-      // 3 accounts, email, EVM, solana
-      return null;
+    if (!user || wallets.length === 0) return null;
+
     return wallets[0];
   }, [user, wallets]);
 
