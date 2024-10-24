@@ -60,13 +60,19 @@ function AppContent() {
 
   return (
     <ShopCoinflowContextProvider>
-      <div className={"w-full flex flex-col h-screen relative bg-white"}>
-        <div className={"flex flex-col max-h-none h-auto w-full flex-1"}>
-          <Header />
-          <div className={"flex flex-col flex-1 w-screen max-w-xl mx-auto"}>
-            <DirectPurchaseForm />
-            <CoinflowContent />
-          </div>
+      <div
+        className={
+          "w-screen flex flex-col flex-1 relative  h-full min-h-screen"
+        }
+      >
+        <Header />
+        <div
+          className={
+            "grid grid-cols-1 pt-10 md:grid-cols-2 gap-0 md:gap-12 w-full h-full max-w-3xl mx-auto"
+          }
+        >
+          <DirectPurchaseForm />
+          <CoinflowContent />
         </div>
       </div>
     </ShopCoinflowContextProvider>
@@ -111,13 +117,9 @@ export function LoadingSpinner({ className }: { className?: string }) {
 
 function ContextWrapper({ children }: { children: ReactNode }) {
   return (
-    <div
-      className={"flex flex-col items-center justify-center h-screen w-screen"}
-    >
-      <WalletContextProvider>
-        <BrowserRouter>{children}</BrowserRouter>
-      </WalletContextProvider>
-    </div>
+    <WalletContextProvider>
+      <BrowserRouter>{children}</BrowserRouter>
+    </WalletContextProvider>
   );
 }
 
