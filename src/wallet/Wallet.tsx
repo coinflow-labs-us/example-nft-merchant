@@ -24,7 +24,9 @@ const WalletContext = createContext<WalletContextProps>({
   connection: new Connection(import.meta.env.VITE_RPC_URL, "confirmed"),
   wallet: {
     publicKey: null,
-    sendTransaction: () => {},
+    sendTransaction: async (): Promise<string> => {
+      return "";
+    },
   },
   ready: false,
 });
@@ -44,10 +46,11 @@ export function WalletContextProvider({ children }: { children: ReactNode }) {
   }, [user, wallets]);
 
   const signTransaction = useCallback(
-    async (
-      transaction: VersionedTransaction
-    ): Promise<VersionedTransaction> => {
-      const serializedMessage = Buffer.from(transaction.message.serialize());
+    async <T extends Transaction | VersionedTransaction>(
+      transaction: T
+    ): Promise<T> => {
+      const tx = transaction as VersionedTransaction;
+      const serializedMessage = Buffer.from(tx.message.serialize());
       const provider = await solanaWallet!.getProvider();
 
       const { signature } = await provider.request({
@@ -57,7 +60,7 @@ export function WalletContextProvider({ children }: { children: ReactNode }) {
         },
       });
 
-      transaction.addSignature(
+      tx.addSignature(
         new PublicKey(solanaWallet!.address),
         Uint8Array.from(Buffer.from(signature, "base64"))
       );
@@ -67,13 +70,15 @@ export function WalletContextProvider({ children }: { children: ReactNode }) {
   );
 
   const sendTransaction = useCallback(
-    async (transaction: VersionedTransaction | Transaction) => {
-      transaction = (await signTransaction(
+    async <T extends Transaction | VersionedTransaction>(
+      transaction: T
+    ): Promise<string> => {
+      const tx: VersionedTransaction = (await signTransaction(
         transaction as VersionedTransaction
       ))!;
 
-      const signedTransaction = transaction.serialize();
-      await connection.sendRawTransaction(signedTransaction);
+      const signedTransaction = tx.serialize();
+      return await connection.sendRawTransaction(signedTransaction);
     },
     [connection, signTransaction]
   );
