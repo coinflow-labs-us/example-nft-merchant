@@ -3,7 +3,7 @@ import { LoadingSpinner } from "../App.tsx";
 
 export function LoginModal() {
   return (
-    <div className={"w-full max-w-sm h-full flex items-center justify-center"}>
+    <div className={" w-screen h-full flex items-center justify-center"}>
       <LoginForm />
     </div>
   );
@@ -16,7 +16,9 @@ function LoginForm() {
   if (!ready)
     return (
       <div
-        className={"flex h-full flex-col items-center justify-center flex-1"}
+        className={
+          "flex h-full flex-col items-center w-full justify-center flex-1 mx-auto"
+        }
       >
         <LoadingSpinner className={"!text-slate-900/20 !fill-slate-900"} />
         <span className={"text-slate-900 font-medium mt-5 text-sm"}>

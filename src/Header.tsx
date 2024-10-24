@@ -28,23 +28,21 @@ export function Header() {
   return (
     <div
       className={
-        "flex-col flex space-y-2 border-b border-black/10 fixed bg-white/50 backdrop-blur-2xl lg:sticky z-40 top-0 right-0 left-0 items-center"
+        "flex-col flex space-y-2 border-b border-black/10 sticky bg-white/60 backdrop-blur-2xl z-40 top-0 right-0 left-0 items-center px-8"
       }
     >
       <div
-        className={`p-5 flex w-full items-center space-x-4 px-8 mx-auto max-w-xl z-50`}
+        className={`py-2 flex w-full items-center space-x-3 mx-auto z-50 max-w-3xl`}
       >
         <img
           src={
             "https://static.wikia.nocookie.net/aqwikia/images/c/ca/Sword_Master_Emblem.png"
           }
           alt={"nft"}
-          className={"w-6 object-contain"}
+          className={"w-4 object-contain"}
         />
         <span
-          className={
-            "hidden lg:flex font-extrabold text-slate-900 text-sm lg:text-lg"
-          }
+          className={"hidden lg:flex font-extrabold text-slate-900 text-sm"}
         >
           Battle Brawlers
         </span>
@@ -52,10 +50,12 @@ export function Header() {
 
         <div className={"joyride-step-5"}>
           <OutlineButton onClick={() => setTestCardsOpen(true)}>
-            <span className={"font-normal text-sm"}>Test Cards</span>
+            <span className={"font-normal text-xs whitespace-nowrap"}>
+              Test Cards
+            </span>
           </OutlineButton>
         </div>
-        <div className={"joyride-step-4"}>
+        <div className={"joyride-step-4 whitespace-nowrap"}>
           <OutlineButton onClick={() => setBuyCredits(!buyCredits)}>
             {buyCredits ? "Buy NFT" : "Buy Credits"}
           </OutlineButton>
@@ -91,7 +91,7 @@ function OutlineButton({
     <div
       onClick={onClick}
       className={
-        "cursor-pointer font-normal text-sm flex items-center text-slate-700 hover:text-slate-900 transition py-3"
+        "cursor-pointer font-normal text-xs flex items-center text-slate-700 hover:text-slate-900 transition py-3"
       }
     >
       {children}

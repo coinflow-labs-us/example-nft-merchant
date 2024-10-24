@@ -8,36 +8,15 @@ export function DirectPurchaseForm() {
   return (
     <div
       className={
-        "flex flex-col h-auto max-w-full w-full bg-base-1 overflow-hidden relative border-b border-black/10"
+        "flex flex-col max-w-full w-full overflow-hidden relative h-full"
       }
     >
-      {wallet && wallet.publicKey ? (
-        <div className="flex space-x-2 items-center pt-4 pl-9">
-          <span className="text-xs text-slate-900 ">
-            Welcome back, user {wallet.publicKey.toString()}
-          </span>
-          <button
-            onClick={() => {
-              navigator.clipboard.writeText(wallet.publicKey.toString());
-              setCopied(true);
-              setTimeout(() => setCopied(false), 1000);
-            }}
-            className={`outline-none focus:outline-none border-none transition text-[11px] ${
-              copied
-                ? "bg-green-50 text-green-900"
-                : "text-slate-600 hover:bg-slate-100 bg-slate-50"
-            } px-1.5 py-0.5 rounded-xl flex items-center justify-center`}
-          >
-            {copied ? "Copied" : "Copy"}
-          </button>
-        </div>
-      ) : null}
       <div
         className={
-          "bg-transparent flex flex-col items-center z-30 p-2 pb-10 lg:p-10 flex-1 h-full pt-28 lg:pt-12"
+          "bg-transparent flex flex-col items-center z-30 flex-1 h-full"
         }
       >
-        <div className={"grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-8"}>
+        <div className={"flex flex-col gap-8"}>
           <div
             className={
               "flex-col space-y-5 justify-center ring-1 ring-black/5 rounded-2xl align-center max-w-[350px]"
@@ -61,6 +40,28 @@ export function DirectPurchaseForm() {
           </div>
         </div>
       </div>
+      <div className={"flex-1"} />
+      {wallet && wallet.publicKey ? (
+        <div className="flex space-x-2 items-center pt-4 px-8 pb-0 md:pb-10">
+          <span className="text-xs text-slate-900 ">
+            Welcome back, user {wallet.publicKey.toString()}
+          </span>
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(wallet.publicKey?.toString() || "");
+              setCopied(true);
+              setTimeout(() => setCopied(false), 1000);
+            }}
+            className={`outline-none focus:outline-none border-none transition text-[11px] ${
+              copied
+                ? "bg-green-50 text-green-900"
+                : "text-slate-600 hover:bg-slate-100 bg-slate-50"
+            } px-1.5 py-0.5 rounded-xl flex items-center justify-center`}
+          >
+            {copied ? "Copied" : "Copy"}
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -79,9 +80,7 @@ function Total() {
 function SupplyIndicator() {
   return (
     <>
-      <span className="font-extrabold text-xl text-slate-900 mt-8">
-        Basic Sword
-      </span>
+      <span className="font-extrabold text-xl text-slate-900">Basic Sword</span>
 
       <div className={"flex space-x-4 items-center mt-3"}>
         <div
