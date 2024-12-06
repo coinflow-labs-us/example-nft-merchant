@@ -80,7 +80,7 @@ function Total() {
 function SupplyIndicator() {
   return (
     <>
-      <span className="font-extrabold text-xl text-slate-900">Basic Sword</span>
+      <span className="font-extrabold text-xl text-slate-900">Basic Shield</span>
 
       <div className={"flex space-x-4 items-center mt-3"}>
         <div
@@ -88,9 +88,9 @@ function SupplyIndicator() {
             "flex space-x-1 items-center rounded-xl p-2 bg-orange-50 ring-1 ring-orange-100"
           }
         >
-          <span className={"text-xs text-white"}>🔥.</span>
+          <span className={"text-xs text-white"}>🪖.</span>
           <span className={"text-xs font-semibold text-slate-900"}>
-            Damage:{" "}
+            Protection:{" "}
           </span>
           <span className={"text-xs font-bold text-orange-600"}>3x </span>
         </div>

@@ -47,9 +47,9 @@ export function CreditsSuccessModal({
                   >
                     <img
                       src={
-                        "https://static.wikia.nocookie.net/aqwikia/images/c/ca/Sword_Master_Emblem.png"
+                        "https://img.freepik.com/free-vector/cartoon-style-blue-shield_78370-1110.jpg"
                       }
-                      alt={"nft"}
+                      alt={"Shield"}
                       className={"w-full object-contain"}
                     />
                   </div>
@@ -62,7 +62,7 @@ export function CreditsSuccessModal({
                   <div className="mt-2">
                     <p className="text-sm text-slate-600 text-center">
                       Your purchase was successful & your balance will increase.
-                      Let's spend it on a sword collectible!
+                      Let's spend it on a shield collectible!
                     </p>
                   </div>
 

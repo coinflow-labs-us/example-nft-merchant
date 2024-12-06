@@ -36,9 +36,9 @@ export function Header() {
       >
         <img
           src={
-            "https://static.wikia.nocookie.net/aqwikia/images/c/ca/Sword_Master_Emblem.png"
+            "https://img.freepik.com/free-vector/cartoon-style-blue-shield_78370-1110.jpg"
           }
-          alt={"nft"}
+          alt={"Shield"}
           className={"w-4 object-contain"}
         />
         <span

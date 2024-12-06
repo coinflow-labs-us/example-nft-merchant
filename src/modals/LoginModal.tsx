@@ -41,8 +41,8 @@ function LoginForm() {
         >
           <img
             className={"w-7 h-7 object-contain"}
-            src={"https://i.redd.it/m72vtq2jtoq51.png"}
-            alt={"sword"}
+            src={"https://img.freepik.com/free-vector/cartoon-style-blue-shield_78370-1110.jpg"}
+            alt={"shield"}
           />
         </div>
         <h3 className={"font-semibold text-base text-slate-900"}>

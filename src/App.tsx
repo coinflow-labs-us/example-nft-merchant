@@ -12,8 +12,8 @@ import console from "console";
 
 export const focusedNft = {
   image:
-    "https://opengameart.org/sites/default/files/short_sword_game_item.jpg",
-  name: "Test NFT",
+    "https://img.freepik.com/free-vector/cartoon-style-blue-shield_78370-1110.jpg",
+  name: "Shield",
 };
 
 function App() {
